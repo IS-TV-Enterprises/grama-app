@@ -18,9 +18,11 @@ import ballerina/log;
 import ballerinax/slack;
 import ballerina/http;
 
+configurable string access_token = ?;
+
 slack:ConnectionConfig slackConfig = {
     auth: {
-        token: "xoxb-6302138382402-6307198246323-mmWuPdXZHpVXsQhpn2aBUqDw"
+        token: access_token
     }
 };
 
