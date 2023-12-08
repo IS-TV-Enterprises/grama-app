@@ -17,21 +17,33 @@ import React, {
 export const HelpBarTest: FunctionComponent = (): ReactElement => {
   const [msg, setMsg] = useState<string>("");
   const [response, setResponse] = useState<string>("");
+  const [name, setName] = useState<string>("");
 
-  async function sendMessage(message: string): Promise<void> {
-    const url = "http://localhost:8080/sendmsg/";
+  interface SendMessagePayload {
+    message: string;
+    name: string;
+  }
+
+  async function sendMessage(message: string, name: string): Promise<void> {
+    const url = "http://localhost:8080/sendmsgjson";
+
+    const payload: SendMessagePayload = {
+      message,
+      name,
+    };
 
     try {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json", // Adjust content type as needed
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message }), // Sending the message as JSON
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         console.log("Message sent successfully!");
+        // You can do something with the response if needed
       } else {
         console.error("Failed to send message:", response.status);
       }
@@ -40,14 +52,20 @@ export const HelpBarTest: FunctionComponent = (): ReactElement => {
     }
   }
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleChangeMsg = (event: ChangeEvent<HTMLInputElement>): void => {
     setMsg(event.target.value);
+  };
+
+  const handleChangeName = (event: ChangeEvent<HTMLInputElement>): void => {
+    setName(event.target.value);
   };
 
   // handle submit function should simply sent a post request to http://localhost:8080/sendmsg/ with the message as a query parameter
   // the response should be displayed in a div below the input field
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    sendMessage(msg);
+    console.log("A message was submitted: " + msg);
+    console.log("A name was submitted: " + name);
+    sendMessage(msg, name);
   };
 
   return (
@@ -57,9 +75,15 @@ export const HelpBarTest: FunctionComponent = (): ReactElement => {
         <form onSubmit={handleSubmit}>
           <label>
             Message:
-            <input type="text" value={msg} onChange={handleChange} />
+            <input type="text" value={msg} onChange={handleChangeMsg} />
+          </label>{" "}
+          <br />
+          <label>
+            Name:
+            <input type="text" value={name} onChange={handleChangeName} />
           </label>
-          <input type="submit" value="Submit" />
+          <br />
+          <button type="submit">Send Message</button>
         </form>
         <div>{response}</div>
       </div>

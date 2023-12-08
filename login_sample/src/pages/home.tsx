@@ -31,7 +31,7 @@ import { AuthenticationResponse } from "../components";
 import { useLocation } from "react-router-dom";
 import { LogoutRequestDenied } from "../components/LogoutRequestDenied";
 import { USER_DENIED_LOGOUT } from "../constants/errors";
-import { HelpBarTest } from "../components/HelpBarTest";
+import Helpbar2 from "../components/helpbar2";
 
 interface DerivedState {
   authenticateResponse: BasicUserInfo;
@@ -171,7 +171,7 @@ export const HomePage: FunctionComponent = (): ReactElement => {
           >
             Logout
           </button>
-          <HelpBarTest />
+          <Helpbar2 />
         </div>
       ) : (
         <div className="content">
