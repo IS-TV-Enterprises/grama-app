@@ -20,6 +20,11 @@ import ballerina/http;
 
 configurable string access_token = ?;
 
+type MSG readonly & record {|
+    string name;
+    string message;
+|};
+
 slack:ConnectionConfig slackConfig = {
     auth: {
         token: access_token
@@ -30,9 +35,6 @@ listener http:Listener httpListener = new (8080);
 
 service / on httpListener {
 
-resource function get greeting/[string name]() returns string {
-return "Hello " + name;
-}
 
 resource function post sendmsg/[string msg]() returns error? {
     slack:Client slackClient = check new (slackConfig);
@@ -47,4 +49,20 @@ resource function post sendmsg/[string msg]() returns error? {
     log:printInfo("Message sent" + postResponse);
 
     }
+
+
+// give me the same function as above but this time it takes the message from the body of the request
+resource function post sendmsgjson(MSG msg) returns error? {
+    slack:Client slackClient = check new (slackConfig);
+
+    slack:Message messageParams = {
+        channelName: "grama-support",
+        text: msg.message + " from " + msg.name
+    };
+
+    // Post a message to a channel.
+    string postResponse = check slackClient->postMessage(messageParams);
+    log:printInfo("Message sent" + postResponse);
+
+}
 }
