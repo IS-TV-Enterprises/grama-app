@@ -19,7 +19,7 @@ import ballerina/http;
 
 # A service representing a network-accessible API
 # bound to port `9090`.
-service / on new http:Listener(9090) {
+service /apim on new http:Listener(9090) {
 
     # A resource for generating greetings
     # + name - the input string name
