@@ -3,11 +3,11 @@ import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
 import ballerina/http;
 
-configurable string HOST = ?;
-configurable int PORT = ?;
-configurable string USER = ?;
-configurable string PASSWORD = ?;
-configurable string DATABASE = ?;
+configurable string HOST = "mysql-241064b1-175e-4ca4-a458-67e0d6bb854d-identity2388360287-c.a.aivencloud.com";
+configurable int PORT = 11687;
+configurable string USER = "avnadmin";
+configurable string PASSWORD = "AVNS_EIZp_gjvMDa9Eu7B7MY";
+configurable string DATABASE = "defaultdb";
 
 type Citizen record {
     
