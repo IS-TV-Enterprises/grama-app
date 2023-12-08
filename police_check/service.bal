@@ -20,7 +20,7 @@ configurable int PORT = ?;
 configurable string DATABASE = ?;
 
 mysql:Client dbClient = check new(
-    host=HOST, user=USER, password=PASSWORD, port=PORT, database="test_schema"
+    host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE
 );
 
 
