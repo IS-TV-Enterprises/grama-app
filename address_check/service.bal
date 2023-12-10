@@ -1,34 +1,39 @@
-// Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com/) All Rights Reserved.
-//
-// WSO2 LLC. licenses this file to you under the Apache License,
-// Version 2.0 (the "License"); you may not use this file except
-// in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied. See the License for the
-// specific language governing permissions and limitations
-// under the License.
-//
-
+import ballerina/time;
+import ballerinax/mysql;
+import ballerinax/mysql.driver as _; // This bundles the driver to the project so that you don't need to bundle it via the `Ballerina.toml` file.
+import ballerina/sql;
 import ballerina/http;
 
-# A service representing a network-accessible API
-# bound to port `9090`.
-service / on new http:Listener(9090) {
+public type crime record {|
+    int crime_id;
+    @sql:Column { name: "Id" }
+    string NIC;
+    @sql:Column { name: "crime_description" }
+    string description;
+    time:Date date;
+|};
 
-    # A resource for generating greetings
-    # + name - the input string name
-    # + return - string name with hello message or error
-    resource function get greeting(string name) returns string|error {
-        // Send a response back to the caller.
-        if name is "" {
-            return error("name should not be empty!");
-        }
-        return "Hello, " + name;
+configurable string USER = ?;
+configurable string PASSWORD = ?;
+configurable string HOST = ?;
+configurable int PORT = ?;
+configurable string DATABASE = ?;
+
+mysql:Client dbClient = check new(
+    host=HOST, user=USER, password=PASSWORD, port=PORT, database="test_schema"
+);
+
+
+service /police\-check on new http:Listener(9090) {
+
+    resource function get crimes_by_id(string Id) returns crime[]|error{
+        crime[] crimes = [];
+        stream<crime, error?> resultStream = dbClient->query(`select * from crimes where ID=${Id}`);
+        check from crime crime in resultStream
+            do {
+                crimes.push(crime);
+            };
+        check resultStream.close();
+        return crimes;
     }
 }
