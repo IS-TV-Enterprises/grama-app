@@ -1,92 +1,78 @@
-// give me a simple help bar with a text input field and a button to send the message to http://localhost:8080/sendmsg/
-// the message should be simply added to the end of the url as a query parameter
+import React, { useState } from "react";
 
-// the response should be displayed in a div below the input field
-// the response should be cleared when the button is clicked again
+interface SendMessagePayload {
+  name: string;
+  message: string;
+}
 
-// that is all
+const HelpBarTest: React.FC = () => {
+  const [name, setName] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
-import React, {
-  ChangeEvent,
-  FormEvent,
-  FunctionComponent,
-  ReactElement,
-  useState,
-} from "react";
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent default form submission
 
-export const HelpBarTest: FunctionComponent = (): ReactElement => {
-  const [msg, setMsg] = useState<string>("");
-  const [response, setResponse] = useState<string>("");
-  const [name, setName] = useState<string>("");
-
-  interface SendMessagePayload {
-    message: string;
-    name: string;
-  }
-
-  async function sendMessage(message: string, name: string): Promise<void> {
-    const url = "http://localhost:8080/sendmsgjson";
+    if (!name.trim() || !message.trim()) {
+      setError("Name and message are required.");
+      return;
+    }
 
     const payload: SendMessagePayload = {
-      message,
       name,
+      message,
     };
 
     try {
-      const response = await fetch(url, {
+      const response = await fetch("http://localhost:8080/sendmsgjson", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json", // Adding the Accept header
         },
+        mode: "no-cors",
         body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         console.log("Message sent successfully!");
-        // You can do something with the response if needed
+        // Handle successful response if needed (though the response body won't be accessible)
       } else {
         console.error("Failed to send message:", response.status);
+        setError("Failed to send message. Please try again.");
       }
     } catch (error) {
       console.error("Error sending message:", error);
+      setError("Error sending message. Please try again.");
     }
-  }
-
-  const handleChangeMsg = (event: ChangeEvent<HTMLInputElement>): void => {
-    setMsg(event.target.value);
-  };
-
-  const handleChangeName = (event: ChangeEvent<HTMLInputElement>): void => {
-    setName(event.target.value);
-  };
-
-  // handle submit function should simply sent a post request to http://localhost:8080/sendmsg/ with the message as a query parameter
-  // the response should be displayed in a div below the input field
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    console.log("A message was submitted: " + msg);
-    console.log("A name was submitted: " + name);
-    sendMessage(msg, name);
   };
 
   return (
-    <>
-      <h2>Help Bar Test</h2>
-      <div className="json">
-        <form onSubmit={handleSubmit}>
-          <label>
-            Message:
-            <input type="text" value={msg} onChange={handleChangeMsg} />
-          </label>{" "}
-          <br />
-          <label>
-            Name:
-            <input type="text" value={name} onChange={handleChangeName} />
-          </label>
-          <br />
-          <button type="submit">Send Message</button>
-        </form>
-        <div>{response}</div>
+    <form onSubmit={handleSubmit}>
+      {error && <div>Error: {error}</div>}
+      <div>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
       </div>
-    </>
+      <div>
+        <label>
+          Message:
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+        </label>
+      </div>
+      <button type="submit">Send</button>
+    </form>
   );
 };
+
+export default HelpBarTest;
