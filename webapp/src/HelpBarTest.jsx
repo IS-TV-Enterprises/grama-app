@@ -1,16 +1,12 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-interface SendMessagePayload {
-  name: string;
-  message: string;
-}
-
-const HelpBarTest: React.FC = () => {
+const HelpBarTest = () => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
 
     if (!name.trim() || !message.trim()) {
@@ -18,59 +14,63 @@ const HelpBarTest: React.FC = () => {
       return;
     }
 
-    const payload: SendMessagePayload = {
+    const payload = {
       name,
       message,
     };
 
     try {
-      const response = await fetch("http://localhost:8080/sendmsgjson", {
-        method: "POST",
+      await axios.post("http://localhost:8080/sendmsgjson", payload, {
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json", // Adding the Accept header
+          Accept: "application/json",
         },
-        mode: "no-cors",
-        body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        console.log("Message sent successfully!");
-        // Handle successful response if needed (though the response body won't be accessible)
-      } else {
-        console.error("Failed to send message:", response.status);
-        setError("Failed to send message. Please try again.");
-      }
+      console.log("Message sent successfully!");
+      // Handle successful response if needed (though the response body won't be accessible)
     } catch (error) {
       console.error("Error sending message:", error);
-      setError("Error sending message. Please try again.");
+      setError("Failed to send message. Please try again.");
     }
   };
 
   const handleSendMsg = async () => {
     try {
-      const response = await fetch("http://localhost:8080/sendmsgjson", {
-        method: "POST",
+      await axios.post(
+        "http://localhost:8080/sendmsg/HiRashad",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("sendmsg called successfully!");
+      // Handle successful response if needed (though the response body won't be accessible)
+    } catch (error) {
+      console.error("Error calling sendmsg:", error);
+      setError("Failed to call sendmsg. Please try again.");
+    }
+  };
+
+  const handleGreet = async () => {
+    try {
+      await axios.get("http://localhost:8080/greeting", {
         headers: {
           "Content-Type": "application/json",
         },
         mode: "no-cors",
-        body: JSON.stringify({ name: "HI", message: "HI" }),
       });
-      console.log(JSON.stringify({ name: "HI", message: "HI" }));
-      if (response.ok) {
-        console.log("sendmsg called successfully!");
-        // Handle successful response if needed (though the response body won't be accessible)
-      } else {
-        console.error("Failed to call sendmsg:", response.status);
-        setError("Failed to call sendmsg. Please try again.");
-      }
+
+      console.log("greet called successfully!");
+      // Handle successful response if needed (though the response body won't be accessible)
     } catch (error) {
-      console.error("Error calling sendmsg:", error);
-      setError("Error calling sendmsg. Please try again.");
+      console.error("Error calling greet:", error);
+      setError("Failed to call greet. Please try again.");
     }
   };
-
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -99,6 +99,7 @@ const HelpBarTest: React.FC = () => {
       </form>
       <br />
       <button onClick={handleSendMsg}>Send Message to sendmsg Endpoint</button>
+      <button onClick={handleGreet}>greet</button>
     </div>
   );
 };

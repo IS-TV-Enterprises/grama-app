@@ -31,7 +31,7 @@ import { AuthenticationResponse } from "../components";
 import { useLocation } from "react-router-dom";
 import { LogoutRequestDenied } from "../components/LogoutRequestDenied";
 import { USER_DENIED_LOGOUT } from "../constants/errors";
-import { HelpBarTest } from "../components/HelpBarTest";
+import HelpBarTest from "../components/HelpBarTest";
 
 interface DerivedState {
   authenticateResponse: BasicUserInfo;
