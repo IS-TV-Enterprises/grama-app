@@ -37,14 +37,12 @@ const HelpBarTest = () => {
 
   const handleSendMsg = async () => {
     try {
-      await axios.post(
-        "http://localhost:8080/sendmsg/HIthisisisuru",
-        {},
+      await axios.get(
+        "http://localhost:8080/sendmsg/HiRashad",
         {
           headers: {
             "Content-Type": "application/json",
           },
-          mode: "no-cors",
         }
       );
 
@@ -56,6 +54,22 @@ const HelpBarTest = () => {
     }
   };
 
+  const handleGreet = async () => {
+    try {
+      await axios.get("http://localhost:8080/greeting", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "no-cors",
+      });
+
+      console.log("greet called successfully!");
+      // Handle successful response if needed (though the response body won't be accessible)
+    } catch (error) {
+      console.error("Error calling greet:", error);
+      setError("Failed to call greet. Please try again.");
+    }
+  };
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -84,6 +98,7 @@ const HelpBarTest = () => {
       </form>
       <br />
       <button onClick={handleSendMsg}>Send Message to sendmsg Endpoint</button>
+      <button onClick={handleGreet}>greet</button>
     </div>
   );
 };
