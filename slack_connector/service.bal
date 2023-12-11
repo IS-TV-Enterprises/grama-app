@@ -11,11 +11,7 @@ slack:ConnectionConfig slackConfig = {
 // The service-level CORS config applies globally to each `resource`.
 @http:ServiceConfig {
     cors: {
-        allowOrigins: ["*"],
-        allowCredentials: false,
-        allowHeaders: ["CORELATION_ID"],
-        exposeHeaders: ["X-CUSTOM-HEADER"],
-        maxAge: 84900
+        allowOrigins: ["http://localhost:3000"] // add front end host url here
     }
 }
 
@@ -26,7 +22,7 @@ resource function get greeting() returns string {
     log:printInfo("Hello, World!");
     return "Hello, World!";
 }
-resource function get sendmsg/[string msg]() returns error? {
+resource function post sendmsg/[string msg]() returns error? {
 
     
     slack:Client slackClient = check new (slackConfig);

@@ -37,8 +37,9 @@ const HelpBarTest = () => {
 
   const handleSendMsg = async () => {
     try {
-      await axios.get(
+      await axios.post(
         "http://localhost:8080/sendmsg/HiRashad",
+        {},
         {
           headers: {
             "Content-Type": "application/json",
