@@ -1,6 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-import HelpBarTest from './HelpBarTest';
+import logo from "./logo.svg";
+import "./App.css";
+import HelpForm from "./HelpForm";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
           Learn React
         </a>
       </header>
-      <HelpBarTest />
+      <HelpForm />
     </div>
   );
 }
