@@ -47,31 +47,59 @@ const HelpBarTest: React.FC = () => {
     }
   };
 
+  const handleSendMsg = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/sendmsgjson", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        mode: "no-cors",
+        body: JSON.stringify({ name: "HI", message: "HI" }),
+      });
+      console.log(JSON.stringify({ name: "HI", message: "HI" }));
+      if (response.ok) {
+        console.log("sendmsg called successfully!");
+        // Handle successful response if needed (though the response body won't be accessible)
+      } else {
+        console.error("Failed to call sendmsg:", response.status);
+        setError("Failed to call sendmsg. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error calling sendmsg:", error);
+      setError("Error calling sendmsg. Please try again.");
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      {error && <div>Error: {error}</div>}
-      <div>
-        <label>
-          Name:
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Message:
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </label>
-      </div>
-      <button type="submit">Send</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        {error && <div>Error: {error}</div>}
+        <div>
+          <label>
+            Name:
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            Message:
+            <input
+              type="text"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+          </label>
+        </div>
+        <button type="submit">Send</button>
+      </form>
+      <br />
+      <button onClick={handleSendMsg}>Send Message to sendmsg Endpoint</button>
+    </div>
   );
 };
 
