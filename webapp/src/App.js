@@ -3,9 +3,9 @@ import { Box } from "@mui/material";
 
 import Navtop from "./components/Navbar";
 import LandingPage from "./pages/LandingPage";
-// import GramaCertificate from "./pages/GaramaCertificate";
-// import checkStatus from "./pages/CheckStatus";
+import CheckStatus from "./pages/CheckStatus";
 import Footer from "./components/Footer";
+import GramaCertificate from "./pages/GramaCertificate";
 
 function App() {
   return (
@@ -24,12 +24,9 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
 
-            <Route
-              path="/gramaCertificate"
-              // element={<GramaCertificate /> }
-            />
+            <Route path="/gramaCertificate" element={<GramaCertificate />} />
 
-            <Route path="/checkStatus" element={<checkStatus />} />
+            <Route path="/checkStatus" element={<CheckStatus />} />
           </Routes>
         </Box>
         <Footer />
