@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
-import HelpForm from "./HelpForm";
+import HelpForm from "./components/HelpForm";
+import GramaTable from "./components/GramaTable";
 
 function App() {
   return (
@@ -19,7 +20,6 @@ function App() {
           Learn React
         </a>
       </header>
-      <HelpForm />
     </div>
   );
 }
