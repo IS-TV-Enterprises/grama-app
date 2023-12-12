@@ -16,6 +16,14 @@ public type crime record {|
     time:Date date;
 |};
 
+
+public type certificate_request_body record {|
+//add additional fields like date and stuff
+    int division_id;
+    string NIC;
+    string address;
+|};
+
 public type certificate_request record {|
 //add additional fields like date and stuff
     int request_id;
@@ -26,6 +34,7 @@ public type certificate_request record {|
     //boolean police_check;
     int status;
 |};
+
 
 configurable string USER = ?;
 configurable string PASSWORD = ?;
@@ -44,29 +53,46 @@ final http:Client policeCheckClient = check new ("localhost:9090");
 
 // Id check service
 
-isolated function addCertificateRequest(certificate_request req) returns int|error {
+isolated function addCertificateRequest(certificate_request_body req) returns int|error {
 
     // get police_check value from police check service
     int police_check = check policeCheckClient->get("/police-check/crime_check_by_id?Id="+req.NIC);
     io:println(police_check);
 
     // get address_check value from police check service
-
-
+    int address_check = 1;
 
     // get Id_check value from police check service
+    int Id_check = 1;
 
 
-
+    // intial request status (processing=0, approved=1, rejected=2, smth like that)
+    int request_status=0;
 
     // insert certificate request to database with police_check value
     sql:ExecutionResult result = check dbClient->execute(`
         INSERT INTO certificate_requests (division_id, NIC, Id_check, address_check, police_check, status)
-        VALUES (${req.division_id}, ${req.NIC}, ${req.id_check}, ${req.address_check}, ${police_check}, ${req.status})`);
+        VALUES (${req.division_id}, ${req.NIC}, ${Id_check}, ${address_check}, ${police_check}, ${request_status})`);
     int|string? lastInsertId = result.lastInsertId;
     if lastInsertId is int {
         return lastInsertId;
     } else {
         return error("Unable to obtain last insert ID");
     }
+}
+
+
+isolated function updateStatus(int status, int id) returns int|error{
+    sql:ExecutionResult result = check dbClient->execute(`
+        UPDATE certificate_requests
+        SET status = ${status}
+        WHERE request_id = ${id}`);
+    int|string? lastInsertId = result.affectedRowCount;
+    if lastInsertId is int {
+        return lastInsertId;
+    } else {
+        return error("Unable to obtain last insert ID");
+    }
+
+        
 }

@@ -1,9 +1,13 @@
 import ballerinax/mysql.driver as _; // This bundles the driver to the project so that you don't need to bundle it via the `Ballerina.toml` file.
 import ballerina/http;
 
+
+
+
+
 service /grama\-certificate on new http:Listener(9070) {
 
-    resource function get allCertRequests() returns certificate_request[]|error{
+    isolated resource function get allCertRequests() returns certificate_request[]|error{
         certificate_request[] certificate_requests = [];
         stream<certificate_request, error?> resultStream = dbClient->query(`select * from certificate_requests`);
         check from certificate_request req in resultStream
@@ -14,7 +18,7 @@ service /grama\-certificate on new http:Listener(9070) {
         return certificate_requests;
     }
 
-    isolated resource function post addCertificateRequest(@http:Payload certificate_request req) returns int|error? {
+    isolated resource function post addCertificateRequest(@http:Payload certificate_request_body req) returns int|error? {
         return addCertificateRequest(req);
     }
 
@@ -29,6 +33,14 @@ service /grama\-certificate on new http:Listener(9070) {
         return divisions;
     }
 
+    isolated resource function patch updateStatus(int status, int id) returns int|error? {
+        return updateStatus(status, id);
+        
+    }
+
+
 
 }
+
+
 
