@@ -20,8 +20,8 @@ import { blue, grey, orange } from "@mui/material/colors";
 
 const drawerWidth = 240;
 const navItems = [
-  { label: "Grama Certificate", to: "/publish" }, // Define paths for your navigation items
-  { label: "Check Status", to: "/downloadbooks" },
+  { label: "Grama Certificate", to: "/GramaCertificate" }, // Define paths for your navigation items
+  { label: "Check Status", to: "/checkStatus" },
 ];
 
 const linkStyles = {
@@ -33,7 +33,7 @@ const linkStyles = {
 };
 
 const Navtop = (props) => {
-  let user = false;
+  let user = true;
   
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -128,7 +128,7 @@ const Navtop = (props) => {
                   to={item.to}
                   sx={{ color: grey[900] ,
                      fontWeight:"bold", 
-                     backgroundColor:grey[300],
+                     backgroundColor:grey[50],
                     mr:2,}}
                 >
                   {item.label}
@@ -185,4 +185,3 @@ Navtop.propTypes = {
 };
 
 export default Navtop;
-
