@@ -8,8 +8,8 @@ import GramaHome from './pages/GramaHome';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <GramaHome />
+    <App />
+    {/* <GramaHome /> */}
   </React.StrictMode>
 );
 
