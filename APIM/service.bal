@@ -1,34 +1,46 @@
-// Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com/) All Rights Reserved.
-//
-// WSO2 LLC. licenses this file to you under the Apache License,
-// Version 2.0 (the "License"); you may not use this file except
-// in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing,
-// software distributed under the License is distributed on an
-// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-// KIND, either express or implied. See the License for the
-// specific language governing permissions and limitations
-// under the License.
-//
-
+import ballerinax/mysql.driver as _; // This bundles the driver to the project so that you don't need to bundle it via the `Ballerina.toml` file.
 import ballerina/http;
 
-# A service representing a network-accessible API
-# bound to port `9090`.
-service /apim on new http:Listener(9090) {
 
-    # A resource for generating greetings
-    # + name - the input string name
-    # + return - string name with hello message or error
-    resource function get greeting(string name) returns string|error {
-        // Send a response back to the caller.
-        if name is "" {
-            return error("name should not be empty!");
-        }
-        return "Hello, " + name;
+
+
+
+service /grama\-certificate on new http:Listener(9070) {
+
+    isolated resource function get allCertRequests() returns certificate_request[]|error{
+        certificate_request[] certificate_requests = [];
+        stream<certificate_request, error?> resultStream = dbClient->query(`select * from certificate_requests`);
+        check from certificate_request req in resultStream
+            do {
+                certificate_requests.push(req);
+            };
+        check resultStream.close();
+        return certificate_requests;
     }
+
+    isolated resource function post addCertificateRequest(@http:Payload certificate_request_body req) returns int|error? {
+        return addCertificateRequest(req);
+    }
+
+    isolated resource function get allDivisions() returns string[]|error{
+        string[] divisions = [];
+        stream<record{|string division;|}, error?> resultStream = dbClient->query(`select division from divisions;`);
+        check from record{|string division;|}? result in resultStream
+            do {
+                divisions.push(result.division);
+            };
+        check resultStream.close();
+        return divisions;
+    }
+
+    isolated resource function patch updateStatus(int status, int id) returns int|error? {
+        return updateStatus(status, id);
+        
+    }
+
+
+
 }
+
+
+

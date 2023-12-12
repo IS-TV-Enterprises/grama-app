@@ -36,4 +36,11 @@ service /police\-check on new http:Listener(9090) {
         check resultStream.close();
         return crimes;
     }
+
+    resource function get crime_check_by_id(string Id) returns int|error{
+        sql:ParameterizedQuery query = `SELECT EXISTS(SELECT 1 FROM crimes WHERE id=${Id}) AS result;`;
+        int police_check = check dbClient->queryRow(query);
+        return police_check;
+    }
+
 }

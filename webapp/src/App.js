@@ -6,7 +6,6 @@ import LandingPage from "./pages/LandingPage";
 import GramaCertificate from "./pages/GaramaCertificate";
 import Footer from "./components/Footer"
 
-
 function App() {
   return (
     <Box
@@ -20,8 +19,7 @@ function App() {
         <Box
           className="pages"
           sx={{ display: "flex", flexFlow: "column", height: "100%" }}
-        >
-          <Routes>
+        >          <Routes>
             <Route
               path="/"
               element={<LandingPage /> }
@@ -38,6 +36,7 @@ function App() {
         <Footer />
       </BrowserRouter>
     </Box>
+
   );
 }
 

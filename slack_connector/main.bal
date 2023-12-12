@@ -14,37 +14,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/log;
-import ballerinax/slack;
-import ballerina/http;
-
 configurable string access_token = ?;
 
-slack:ConnectionConfig slackConfig = {
-    auth: {
-        token: access_token
-    }
-};
+type MSG readonly & record {|
+    string name;
+    string message;
+|};
 
-listener http:Listener httpListener = new (8080);
 
-service / on httpListener {
 
-resource function get greeting/[string name]() returns string {
-return "Hello " + name;
-}
-
-resource function post sendmsg/[string msg]() returns error? {
-    slack:Client slackClient = check new (slackConfig);
-
-    slack:Message messageParams = {
-        channelName: "grama-support",
-        text: msg
-    };
-
-    // Post a message to a channel.
-    string postResponse = check slackClient->postMessage(messageParams);
-    log:printInfo("Message sent" + postResponse);
-
-    }
-}
