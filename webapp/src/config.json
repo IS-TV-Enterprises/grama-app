@@ -1,7 +1,7 @@
 {
-  "clientID": "ZNWVYs8ufKwvMdMydMht7gtn6DUa",
   "baseUrl": "https://api.asgardeo.io/t/istventerprises",
-  "signInRedirectURL": "https://localhost:3000",
-  "signOutRedirectURL": "https://localhost:3000",
-  "scope": ["profile"]
+  "clientID": "ZNWVYs8ufKwvMdMydMht7gtn6DUa",
+  "scope": ["openid", "profile"],
+  "signInRedirectURL": "http://localhost:3000",
+  "signOutRedirectURL": "http://localhost:3000"
 }
