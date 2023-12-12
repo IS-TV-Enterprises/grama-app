@@ -1,20 +1,33 @@
 import * as React from "react";
-import Button from "@mui/material/Button"
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {  orange } from "@mui/material/colors";
+import HelpButton from "../components/HelpButton";
 import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
   MenuItem,
   Select,
+  TextField,
+  Typography,
 } from "@mui/material";
+
+
 
 const defaultTheme = createTheme();
 
+
 export default function GramaCertificate() {
+  const [gramaDivision, setgramaDivision] = useState('');
+
+  const handleChange = (event) => {
+    setgramaDivision(event.target.value);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -66,29 +79,20 @@ export default function GramaCertificate() {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="genre"
-                  label="Genre"
-                  fullWidth
-                  name="genre"
-                  required
-                >
-                  <MenuItem value="Adventure and Fantasy">
-                    {" "}
-                    Adventure and Fantasy
-                  </MenuItem>
-                  <MenuItem value="Picture Book"> Picture Book</MenuItem>
-                  <MenuItem value="Fairy Tales and Folklore">
-                    Fairy Tales and Folklore
-                  </MenuItem>
-                  <MenuItem value="Friendship and Social Themes">
-                    Friendship and Social Themes
-                  </MenuItem>
-                  <MenuItem value="Poetry and Rhyming Book">
-                    Poetry and Rhyming Book
-                  </MenuItem>
-                </Select>
+                <FormControl fullWidth>
+                    <InputLabel >Grama Niladhari Division</InputLabel>
+                    <Select
+                      id="grama-division"
+                      value={gramaDivision}
+                      label="grama-division"
+                      onChange={handleChange}
+                       >
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                  </FormControl>
+                        
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
@@ -143,7 +147,7 @@ export default function GramaCertificate() {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
+                
               }}
             >
               <Button
@@ -160,6 +164,7 @@ export default function GramaCertificate() {
                 <Typography>Submit</Typography>
               </Button>
             </Box>
+            <HelpButton/>
           </Box>
         </Box>
       </Container>

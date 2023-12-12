@@ -17,7 +17,7 @@ const Footer = () => {
         flexDirection: 'column',
         alignItems:'center',
         justifyContent:'center',
-        mt: 30,
+        mt: 15,
         bottom: 0,
     }} >
       <Typography color={grey[500]}>

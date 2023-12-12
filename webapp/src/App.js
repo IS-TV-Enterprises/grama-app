@@ -6,6 +6,7 @@ import LandingPage from "./pages/LandingPage";
 import CheckStatus from "./pages/CheckStatus";
 import Footer from "./components/Footer";
 import GramaCertificate from "./pages/GramaCertificate";
+import HelpForm from "./components/HelpForm";
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
             <Route path="/gramaCertificate" element={<GramaCertificate />} />
 
             <Route path="/checkStatus" element={<CheckStatus />} />
+
+            <Route path="/help" element={<HelpForm />} />
+
           </Routes>
         </Box>
         <Footer />
