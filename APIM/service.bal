@@ -18,6 +18,17 @@ service /grama\-certificate on new http:Listener(9070) {
         return addCertificateRequest(req);
     }
 
+    isolated resource function get allDivisions() returns string[]|error{
+        string[] divisions = [];
+        stream<record{|string division;|}, error?> resultStream = dbClient->query(`select division from divisions;`);
+        check from record{|string division;|}? result in resultStream
+            do {
+                divisions.push(result.division);
+            };
+        check resultStream.close();
+        return divisions;
+    }
+
 
 }
 
