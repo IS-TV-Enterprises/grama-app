@@ -1,26 +1,42 @@
-import logo from "./logo.svg";
-import "./App.css";
-import HelpForm from "./HelpForm";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Box } from "@mui/material";
+
+import Navtop from "./components/Navbar";
+import LandingPage from "./pages/LandingPage";
+import GramaCertificate from "./pages/GaramaCertificate";
+import Footer from "./components/Footer"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <HelpForm />
-    </div>
+    <Box
+      className="App"
+      sx={{ height: "100vh", display: "flex", flexDirection: "column" }}
+    >
+      <BrowserRouter>
+        <Navtop />
+        
+
+        <Box
+          className="pages"
+          sx={{ display: "flex", flexFlow: "column", height: "100%" }}
+        >          <Routes>
+            <Route
+              path="/"
+              element={<LandingPage /> }
+            />
+
+          <Route
+              path="/gramaCertificate"
+              element={<GramaCertificate /> }
+            />
+
+           
+          </Routes>
+        </Box>
+        <Footer />
+      </BrowserRouter>
+    </Box>
+
   );
 }
 
