@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {  orange } from "@mui/material/colors";
+import {  grey, orange } from "@mui/material/colors";
 import HelpButton from "../components/HelpButton";
 import {
   Box,
@@ -15,6 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import form from "../Assets/people.jpg";
 
 
 
@@ -40,6 +41,33 @@ export default function GramaCertificate() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xl">
+        <Box sx={{
+           marginTop: 0,
+           m: 1,
+           mb:6,
+           p: 0,
+           display: "flex",
+           flexDirection: "column",
+           alignItems: "center",
+           backgroundColor: orange[50],
+           borderRadius: "18px",
+           backgroundImage: `url(${form})`, // Set the background image
+           backgroundRepeat: "no-repeat",
+           backgroundSize: "cover", // Cover the entire container without cropping
+           maxWidth: '100%', 
+           height: '600px', 
+        }}>
+          <Typography variant="h3" component="h3" 
+          sx={{
+            mt:14,
+            fontFamily: 'Whisper',
+            color: orange[800],
+            
+          }}
+        > Welcome to Grama App</Typography>
+          
+
+        </Box>
         <Box
           sx={{
             marginTop: 6,
@@ -48,8 +76,9 @@ export default function GramaCertificate() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            backgroundColor: orange[50],
+            backgroundColor: grey[200],
             borderRadius: "18px",
+            boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.1)",
           }}
         >
           <Typography
@@ -147,6 +176,7 @@ export default function GramaCertificate() {
             <Box
               sx={{
                 display: "flex",
+                justifyContent:"center",
                 
               }}
             >

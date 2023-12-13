@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Link } from '@mui/material';
-import { blue, blueGrey, grey, orange } from '@mui/material/colors';
+import {  grey, } from '@mui/material/colors';
 
 
 const Footer = () => {
@@ -10,15 +10,17 @@ const Footer = () => {
     <Box 
     sx=
     {{ 
-        flexGrow: 1,
-        p:3,
-        backgroundColor: grey[200],
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems:'center',
-        justifyContent:'center',
-        mt: 15,
-        bottom: 0,
+      flexGrow: 1,
+      p: 3,
+      backgroundColor: grey[200],
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      bottom: 0,
+      mt:100,
+              
     }} >
       <Typography color={grey[500]}>
         Provided by{' '}
