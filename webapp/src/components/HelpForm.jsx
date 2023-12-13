@@ -10,6 +10,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import axios from "axios";
+import { grey, orange } from "@mui/material/colors";
 
 const HelpForm = () => {
   const [name, setName] = useState("");
@@ -61,13 +62,7 @@ const HelpForm = () => {
   };
 
   return (
-    <Box
-      sx={{
-        maxWidth: 400,
-        margin: "0 auto",
-        padding: 2,
-      }}
-    >
+    <Box sx={{ maxWidth: 600, margin: "0 auto",  mt:5, padding: 4 ,backgroundColor:grey[200] ,}}>
       <Typography variant="h5" align="center" gutterBottom>
         Help Form
       </Typography>
