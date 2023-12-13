@@ -2,6 +2,6 @@
   "baseUrl": "https://api.asgardeo.io/t/istventerprises",
   "clientID": "ZNWVYs8ufKwvMdMydMht7gtn6DUa",
   "scope": ["openid", "profile"],
-  "signInRedirectURL": "http://localhost:3000",
+  "signInRedirectURL": "http://localhost:3000/gramaCertificate",
   "signOutRedirectURL": "http://localhost:3000"
 }
