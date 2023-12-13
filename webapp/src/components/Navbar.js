@@ -34,7 +34,19 @@ const linkStyles = {
 };
 
 const Navtop = (props) => {
-  const { state, signIn, signOut } = useAuthContext();
+  const { state, signIn, signOut, getBasicUserInfo } = useAuthContext();
+  const [role, setRole] = useState("");
+  getBasicUserInfo()
+    .then((basicUserDetails) => {
+      console.log(basicUserDetails);
+      console.log("username = " + basicUserDetails.username);
+      console.log("groups = " + basicUserDetails.groups);
+      setRole(basicUserDetails.groups);
+    })
+    .catch((error) => {
+      // Handle the error
+    });
+
   let user = state.isAuthenticated;
 
   const { window } = props;
@@ -127,21 +139,28 @@ const Navtop = (props) => {
           </Typography>
           {user && (
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item.label}
-                  component={Link}
-                  to={item.to}
-                  sx={{
-                    color: grey[900],
-                    fontWeight: "bold",
-                    backgroundColor: grey[50],
-                    mr: 2,
-                  }}
-                >
-                  {item.label}
-                </Button>
-              ))}
+              {role == "Grama_Niladhari" ? (
+                // <Button onClick={() => signOut()} sx={{ color: grey[800] }}>
+                //   Log out
+                // </Button>
+                <div></div>
+              ) : (
+                navItems.map((item) => (
+                  <Button
+                    key={item.label}
+                    component={Link}
+                    to={item.to}
+                    sx={{
+                      color: grey[900],
+                      fontWeight: "bold",
+                      backgroundColor: grey[50],
+                      mr: 2,
+                    }}
+                  >
+                    {item.label}
+                  </Button>
+                ))
+              )}
               <Button onClick={() => signOut()} sx={{ color: grey[800] }}>
                 Log out
               </Button>
