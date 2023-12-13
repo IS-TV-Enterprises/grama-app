@@ -21,8 +21,8 @@ const config = {
 root.render(
   <React.StrictMode>
     <AuthProvider config={config}>
-      {/* <App /> */}
-      <GramaNilHome />
+      <App />
+      {/* <GramaNilHome /> */}
       {/* <AuthPage /> */}
       {/* <HelpForm /> */}
     </AuthProvider>

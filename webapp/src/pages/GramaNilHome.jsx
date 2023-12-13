@@ -1,11 +1,15 @@
 import HelpForm from "../components/HelpForm";
 import GramaTable from "../components/GramaTable";
+import Banner from "../components/GNilBanner";
 
 function GramaNilHome() {
   return (
     <div className="App">
-      <HelpForm />
-      <GramaTable />
+      {/* <HelpForm /> */}
+      <Banner />
+      <div id="gramatable">
+        <GramaTable />
+      </div>
     </div>
   );
 }
