@@ -1,62 +1,80 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuthContext } from "@asgardeo/auth-react";
 
 const MasterHome = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    // Function to fetch role using access token
-    const fetchRole = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken"); // Replace this with your method of accessing the access token
-        if (!accessToken) {
-          setError(true);
-          setLoading(false);
-          return;
-        }
-
-        const response = await axios.get("your_getRole_api_endpoint", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        setRole(response.data.role); // Assuming the role is available in the response
-
-        setLoading(false);
-      } catch (error) {
-        setError(true);
-        setLoading(false);
-        console.error("Error fetching role:", error);
-      }
-    };
-
-    fetchRole();
-  }, []);
+  const {
+    state,
+    signIn,
+    signOut,
+    getBasicUserInfo,
+    getIDToken,
+    getDecodedIDToken,
+    getAccessToken,
+    on,
+  } = useAuthContext();
 
   if (loading) {
-    return <div>Loading...</div>;
+    const status = <div>Loading...</div>;
   }
 
   if (error || !role) {
-    return <div>Invalid Role</div>;
+    const status = <div>Invalid Role</div>;
   }
 
-  // Navigation based on the role received
-  if (role === "user") {
+  getBasicUserInfo()
+    .then((basicUserDetails) => {
+      console.log(basicUserDetails);
+      console.log("username = " + basicUserDetails.username);
+      console.log("groups = " + basicUserDetails.groups);
+      setRole(basicUserDetails.groups[0]);
+    })
+    .catch((error) => {
+      // Handle the error
+    });
+
+  useEffect(() => {
+    getAccessToken()
+      .then((accessToken) => {
+        console.log(accessToken);
+      })
+      .catch((error) => {
+        //console.log(error);
+      });
+  }, []);
+
+  getDecodedIDToken()
+    .then((decodedIDToken) => {
+      console.log(decodedIDToken);
+    })
+    .catch((error) => {
+      // Handle the error
+    });
+
+  console.log(role);
+  
+  if (role === "User") {
     navigate("/gramaCertificate");
-  } else if (role === "gramaNiladhari") {
+  } else if (role === "Grama_Niladhari") {
     navigate("/gramaNilHome");
   } else {
-    return <div>Invalid Role</div>;
+    return (
+      <div>
+        <h1>Please wait while we verify you details</h1>
+        {state.isAuthenticated ? (
+          <h2>user Authenticated</h2>
+        ) : (
+          <h2>user not Authenticated</h2>
+        )}
+      </div>
+    );
   }
-
   // Return null if navigate is used to prevent rendering anything here
-  return null;
 };
 
 export default MasterHome;

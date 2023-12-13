@@ -34,7 +34,19 @@ const linkStyles = {
 };
 
 const Navtop = (props) => {
-  const { state, signIn, signOut } = useAuthContext();
+  const { state, signIn, signOut, getBasicUserInfo } = useAuthContext();
+  const [role, setRole] = useState("");
+  getBasicUserInfo()
+    .then((basicUserDetails) => {
+      console.log(basicUserDetails);
+      console.log("username = " + basicUserDetails.username);
+      console.log("groups = " + basicUserDetails.groups);
+      setRole(basicUserDetails.groups[0]);
+    })
+    .catch((error) => {
+      // Handle the error
+    });
+
   let user = state.isAuthenticated;
 
   const { window } = props;
