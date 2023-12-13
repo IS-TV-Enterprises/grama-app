@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import logoblack from "../Assets/logoblacck.jpg";
 import { blue, grey, orange } from "@mui/material/colors";
+import { useAuthContext } from "@asgardeo/auth-react";
 
 const drawerWidth = 240;
 const navItems = [
@@ -33,8 +34,9 @@ const linkStyles = {
 };
 
 const Navtop = (props) => {
-  let user = true;
-  
+  const { state, signIn, signOut } = useAuthContext();
+  let user = state.isAuthenticated;
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -42,7 +44,6 @@ const Navtop = (props) => {
     setMobileOpen((prevState) => !prevState);
   };
 
- 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Button component={Link} to="/" variant="h6" sx={{ my: 2 }}>
@@ -65,7 +66,7 @@ const Navtop = (props) => {
               </ListItemButton>
             </ListItem>
           ))}
-          <Button component={Link} >
+          <Button onClick={() => signOut()} component={Link}>
             Log out
           </Button>
         </List>
@@ -73,8 +74,13 @@ const Navtop = (props) => {
 
       {!user && (
         <List>
-          <Button component={Link} to="/gramaCertificate" sx={{ ...linkStyles }}>
-            <Typography fontWeight="bold" > Login </Typography>
+          <Button
+            onClick={() => signIn()}
+            component={Link}
+            to="/gramaCertificate"
+            sx={{ ...linkStyles }}
+          >
+            <Typography fontWeight="bold"> Login </Typography>
           </Button>
         </List>
       )}
@@ -126,15 +132,17 @@ const Navtop = (props) => {
                   key={item.label}
                   component={Link}
                   to={item.to}
-                  sx={{ color: grey[900] ,
-                     fontWeight:"bold", 
-                     backgroundColor:grey[50],
-                    mr:2,}}
+                  sx={{
+                    color: grey[900],
+                    fontWeight: "bold",
+                    backgroundColor: grey[50],
+                    mr: 2,
+                  }}
                 >
                   {item.label}
                 </Button>
               ))}
-              <Button component={Link} sx={{color: grey[800] ,}} >
+              <Button onClick={() => signOut()} sx={{ color: grey[800] }}>
                 Log out
               </Button>
             </Box>
@@ -142,8 +150,8 @@ const Navtop = (props) => {
 
           {!user && (
             <Box sx={{ display: { xs: "none", sm: "block" } }}>
-              <Button component={Link} to="/gramaCertificate" sx={{ ...linkStyles }}>
-              <Typography fontWeight="550" > Login </Typography>
+              <Button onClick={() => signIn()} sx={{ ...linkStyles }}>
+                <Typography fontWeight="550"> Login </Typography>
               </Button>
             </Box>
           )}
