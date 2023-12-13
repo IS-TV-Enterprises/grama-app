@@ -47,9 +47,9 @@ const MasterHome = () => {
   }
 
   // Navigation based on the role received
-  if (role === "gramaCertificate") {
+  if (role === "user") {
     navigate("/gramaCertificate");
-  } else if (role === "gramaNilHome") {
+  } else if (role === "gramaNiladhari") {
     navigate("/gramaNilHome");
   } else {
     return <div>Invalid Role</div>;
