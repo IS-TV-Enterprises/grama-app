@@ -7,6 +7,7 @@ import CheckStatus from "./pages/CheckStatus";
 import Footer from "./components/Footer";
 import GramaCertificate from "./pages/GramaCertificate";
 import GramaNilHome from "./pages/GramaNilHome";
+import MasterHome from "./pages/MasterHome";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
           {" "}
           <Routes>
             <Route path="/" element={<LandingPage />} />
+
+            <Route path="/home" element={<MasterHome />} />
+            {/* change redirect upon signin to this page */}
 
             <Route path="/gramaCertificate" element={<GramaCertificate />} />
 
