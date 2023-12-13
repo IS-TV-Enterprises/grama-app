@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import GramaHome from "./pages/GramaHome";
+import GramaNilHome from "./pages/GramaNilHome";
 import { AuthPage } from "./Auth/AuthPage";
 import HelpForm from "./components/HelpForm";
 import { AuthProvider } from "@asgardeo/auth-react";
@@ -21,8 +21,8 @@ const config = {
 root.render(
   <React.StrictMode>
     <AuthProvider config={config}>
-      <App />
-      {/* <GramaHome /> */}
+      {/* <App /> */}
+      <GramaNilHome />
       {/* <AuthPage /> */}
       {/* <HelpForm /> */}
     </AuthProvider>

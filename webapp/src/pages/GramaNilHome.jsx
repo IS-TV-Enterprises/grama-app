@@ -1,7 +1,7 @@
 import HelpForm from "../components/HelpForm";
 import GramaTable from "../components/GramaTable";
 
-function GramaHome() {
+function GramaNilHome() {
   return (
     <div className="App">
       <HelpForm />
@@ -10,4 +10,4 @@ function GramaHome() {
   );
 }
 
-export default GramaHome;
+export default GramaNilHome;
