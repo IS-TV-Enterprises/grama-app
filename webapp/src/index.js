@@ -5,13 +5,27 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import GramaHome from "./pages/GramaHome";
 import { AuthPage } from "./Auth/AuthPage";
+import HelpForm from "./components/HelpForm";
+import { AuthProvider } from "@asgardeo/auth-react";
+import configdata from "./config.json";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const config = {
+  baseUrl: configdata.baseUrl,
+  clientID: configdata.clientID,
+  scope: configdata.scope,
+  signInRedirectURL: configdata.signInRedirectURL,
+  signOutRedirectURL: configdata.signOutRedirectURL,
+};
+
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
-    {/* <GramaHome /> */}
-    <AuthPage />
+    <AuthProvider config={config}>
+      <App />
+      {/* <GramaHome /> */}
+      {/* <AuthPage /> */}
+      {/* <HelpForm /> */}
+    </AuthProvider>
   </React.StrictMode>
 );
 
