@@ -5,9 +5,18 @@ import React, { useState } from 'react';
 const RequestForm = () => {
   const [nic, setNic] = useState('');
   const [addressLine1, setAddressLine1] = useState('');
+  const [addressLine2, setAddressLine2] = useState('');
+  const [addressLine3, setAddressLine3] = useState('');
   const [city, setCity] = useState('');
   const [purpose, setPurpose] = useState('');
   const [division, setDivision] = useState('');
+
+  const predefinedDivisions = [
+    'Division 1',
+    'Division 2',
+    'Division 3',
+    // Add more divisions as needed
+  ];
 
   const handleSubmit = () => {
     // Perform actions on form submission
@@ -35,6 +44,26 @@ const RequestForm = () => {
           value={addressLine1}
           onChangeText={(text) => setAddressLine1(text)}
           placeholder="Enter Address Line 1"
+        />
+      </View>
+      {/* Address Line 2 */}
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Address Line 2</Text>
+        <TextInput
+          style={styles.input}
+          value={addressLine2}
+          onChangeText={(text) => setAddressLine2(text)}
+          placeholder="Enter Address Line 2"
+        />
+      </View>
+      {/* Address Line 3 */}
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Address Line 3</Text>
+        <TextInput
+          style={styles.input}
+          value={addressLine3}
+          onChangeText={(text) => setAddressLine3(text)}
+          placeholder="Enter Address Line 3"
         />
       </View>
 
@@ -69,7 +98,9 @@ const RequestForm = () => {
           onValueChange={(itemValue) => setDivision(itemValue)}
         >
           <Picker.Item label="Select Division" value="" />
-          {/* Add predefined divisions here */}
+          {predefinedDivisions.map((div, index) => (
+            <Picker.Item key={index} label={div} value={div} />
+          ))}
         </Picker>
       </View>
 
