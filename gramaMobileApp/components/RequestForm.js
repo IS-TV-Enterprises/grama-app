@@ -1,6 +1,5 @@
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, FlatList, TouchableOpacity, Modal } from 'react-native';
 
 const RequestForm = () => {
   const [nic, setNic] = useState('');
@@ -10,6 +9,7 @@ const RequestForm = () => {
   const [city, setCity] = useState('');
   const [purpose, setPurpose] = useState('');
   const [division, setDivision] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const predefinedDivisions = [
     'Division 1',
@@ -17,6 +17,18 @@ const RequestForm = () => {
     'Division 3',
     // Add more divisions as needed
   ];
+
+  const renderDivisionItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.dropdownItem}
+      onPress={() => {
+        setDivision(item);
+        setModalVisible(false);
+      }}
+    >
+      <Text>{item}</Text>
+    </TouchableOpacity>
+  );
 
   const handleSubmit = () => {
     // Perform actions on form submission
@@ -46,7 +58,7 @@ const RequestForm = () => {
           placeholder="Enter Address Line 1"
         />
       </View>
-      {/* Address Line 2 */}
+
       <View style={styles.formGroup}>
         <Text style={styles.label}>Address Line 2</Text>
         <TextInput
@@ -56,7 +68,7 @@ const RequestForm = () => {
           placeholder="Enter Address Line 2"
         />
       </View>
-      {/* Address Line 3 */}
+
       <View style={styles.formGroup}>
         <Text style={styles.label}>Address Line 3</Text>
         <TextInput
@@ -92,16 +104,27 @@ const RequestForm = () => {
       {/* Grama Niladhari Division */}
       <View style={styles.formGroup}>
         <Text style={styles.label}>Grama Niladhari Division *</Text>
-        <Picker
-          style={styles.input}
-          selectedValue={division}
-          onValueChange={(itemValue) => setDivision(itemValue)}
+        <TouchableOpacity
+          style={styles.picker}
+          onPress={() => setModalVisible(true)}
         >
-          <Picker.Item label="Select Division" value="" />
-          {predefinedDivisions.map((div, index) => (
-            <Picker.Item key={index} label={div} value={div} />
-          ))}
-        </Picker>
+          <Text>{division || 'Select Division'}</Text>
+        </TouchableOpacity>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <FlatList
+              data={predefinedDivisions}
+              renderItem={renderDivisionItem}
+              keyExtractor={(item) => item}
+            />
+          </View>
+        </Modal>
       </View>
 
       {/* Submit Button */}
@@ -126,6 +149,26 @@ const styles = StyleSheet.create({
     borderColor: 'lightgrey',
     borderRadius: 5,
     padding: 10,
+  },
+  picker: {
+    borderWidth: 1,
+    borderColor: 'lightgrey',
+    borderRadius: 5,
+    padding: 10,
+    color: 'black', // Set the text color for better visibility
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  dropdownItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'lightgrey',
+    width: '100%',
+    alignItems: 'center',
   },
 });
 
