@@ -42,9 +42,6 @@ service /grama\-certificate on new http:Listener(9070) {
         return crimesById(id);
         
     }
-
-
-
 }
 
 

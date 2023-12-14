@@ -1,30 +1,34 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { grey, orange } from "@mui/material/colors";
+import {  grey, orange } from "@mui/material/colors";
+import HelpButton from "../components/HelpButton";
 import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  Grid,
   InputLabel,
   MenuItem,
-  MenuList,
-  Paper,
   Select,
-  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
+import form from "../Assets/people.jpg";
+
+
 
 const defaultTheme = createTheme();
 
+
 export default function GramaCertificate() {
+  const [gramaDivision, setgramaDivision] = useState('');
+
+  const handleChange = (event) => {
+    setgramaDivision(event.target.value);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -37,6 +41,33 @@ export default function GramaCertificate() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xl">
+        <Box sx={{
+           marginTop: 0,
+           m: 1,
+           mb:6,
+           p: 0,
+           display: "flex",
+           flexDirection: "column",
+           alignItems: "center",
+           backgroundColor: orange[50],
+           borderRadius: "18px",
+           backgroundImage: `url(${form})`, // Set the background image
+           backgroundRepeat: "no-repeat",
+           backgroundSize: "cover", // Cover the entire container without cropping
+           maxWidth: '100%', 
+           height: '600px', 
+        }}>
+          <Typography variant="h3" component="h3" 
+          sx={{
+            mt:14,
+            fontFamily: 'Whisper',
+            color: orange[800],
+            
+          }}
+        > Welcome to Grama App</Typography>
+          
+
+        </Box>
         <Box
           sx={{
             marginTop: 6,
@@ -45,8 +76,9 @@ export default function GramaCertificate() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            backgroundColor: orange[50],
+            backgroundColor: grey[200],
             borderRadius: "18px",
+            boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.1)",
           }}
         >
           <Typography
@@ -76,29 +108,20 @@ export default function GramaCertificate() {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="genre"
-                  label="Genre"
-                  fullWidth
-                  name="genre"
-                  required
-                >
-                  <MenuItem value="Adventure and Fantasy">
-                    {" "}
-                    Adventure and Fantasy
-                  </MenuItem>
-                  <MenuItem value="Picture Book"> Picture Book</MenuItem>
-                  <MenuItem value="Fairy Tales and Folklore">
-                    Fairy Tales and Folklore
-                  </MenuItem>
-                  <MenuItem value="Friendship and Social Themes">
-                    Friendship and Social Themes
-                  </MenuItem>
-                  <MenuItem value="Poetry and Rhyming Book">
-                    Poetry and Rhyming Book
-                  </MenuItem>
-                </Select>
+                <FormControl fullWidth>
+                    <InputLabel >Grama Niladhari Division</InputLabel>
+                    <Select
+                      id="grama-division"
+                      value={gramaDivision}
+                      label="grama-division"
+                      onChange={handleChange}
+                       >
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                  </FormControl>
+                        
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
@@ -153,7 +176,8 @@ export default function GramaCertificate() {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent:"center",
+                
               }}
             >
               <Button
@@ -170,6 +194,7 @@ export default function GramaCertificate() {
                 <Typography>Submit</Typography>
               </Button>
             </Box>
+            <HelpButton/>
           </Box>
         </Box>
       </Container>

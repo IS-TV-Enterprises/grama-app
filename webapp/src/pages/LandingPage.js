@@ -17,13 +17,6 @@ import { AuthProvider } from "@asgardeo/auth-react";
 import { useAuthContext } from "@asgardeo/auth-react";
 import configdata from "../config.json";
 
-const config = {
-  baseUrl: configdata.baseUrl,
-  clientID: configdata.clientID,
-  scope: configdata.scope,
-  signInRedirectURL: configdata.signInRedirectURL,
-  signOutRedirectURL: configdata.signOutRedirectURL,
-};
 
 const LandingPage = () => {
   const { state, signIn, signOut } = useAuthContext();
