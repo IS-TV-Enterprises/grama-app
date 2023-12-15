@@ -60,22 +60,23 @@ const MasterHome = () => {
 
   console.log(role);
 
-  if (role === "User") {
-    navigate("/gramaCertificate");
-  } else if (role === "Grama_Niladhari") {
+  if (role === "Grama_Niladhari") {
     navigate("/gramaNilHome");
   } else {
-    return (
-      <div>
-        <h1>Please wait while we verify you details</h1>
-        {state.isAuthenticated ? (
-          <h2>user Authenticated</h2>
-        ) : (
-          <h2>user not Authenticated</h2>
-        )}
-      </div>
-    );
+    navigate("/gramaCertificate");
   }
+  // else {
+  //   return (
+  //     <div>
+  //       <h1>Please wait while we verify you details</h1>
+  //       {state.isAuthenticated ? (
+  //         <h2>user Authenticated</h2>
+  //       ) : (
+  //         <h2>user not Authenticated</h2>
+  //       )}
+  //     </div>
+  //   );
+  // }
   // Return null if navigate is used to prevent rendering anything here
 };
 
