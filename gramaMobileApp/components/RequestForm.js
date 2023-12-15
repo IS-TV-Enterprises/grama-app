@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, FlatList, TouchableOpacity, Modal } from 'react-native';
-
+import { ScrollView } from 'react-native';
 const RequestForm = () => {
   const [nic, setNic] = useState('');
   const [addressLine1, setAddressLine1] = useState('');
@@ -33,6 +33,13 @@ const RequestForm = () => {
   const handleSubmit = () => {
     // Perform actions on form submission
     console.log('Form submitted:', { nic, addressLine1, city, purpose, division });
+    setNic('');
+    setAddressLine1('');
+    setAddressLine2('');
+    setAddressLine3('');
+    setCity('');
+    setPurpose('');
+    setDivision('');
   };
 
   return (
@@ -128,7 +135,14 @@ const RequestForm = () => {
       </View>
 
       {/* Submit Button */}
-      <Button title="Submit" onPress={handleSubmit} disabled={!nic || !addressLine1 || !city || !purpose || !division} />
+      <View style={{ borderRadius: 10, overflow: 'hidden', backgroundColor: 'orange' }}>
+      <Button
+        title="Submit"
+        onPress={handleSubmit}
+        disabled={!nic || !addressLine1 || !city || !purpose || !division}
+        color="green"
+      />
+    </View>
     </View>
   );
 };
