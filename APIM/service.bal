@@ -1,6 +1,6 @@
 import ballerinax/mysql.driver as _; // This bundles the driver to the project so that you don't need to bundle it via the `Ballerina.toml` file.
 import ballerina/http;
-import ballerina/log;
+
 
 
 // The service-level CORS config applies globally to each `resource`.
@@ -16,7 +16,7 @@ import ballerina/log;
 service /grama\-certificate on new http:Listener(9030) {
     //get all certificate requests
     isolated resource function get allCertRequests() returns certificate_request[]|error{
-         log:printInfo("Transaction committed");
+
         certificate_request[] certificate_requests = [];
         stream<certificate_request, error?> resultStream = dbClient->query(`select * from certificate_requests`);
         check from certificate_request req in resultStream

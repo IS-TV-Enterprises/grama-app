@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { blue, grey, orange } from "@mui/material/node/colors";
+import { grey } from "@mui/material/node/colors";
 
 const TableWrapper = styled.div`
   display: flex;
@@ -48,32 +48,38 @@ const IncidentDetails = styled.div`
   padding: 10px;
 `;
 
-/*const jsonData = [
-  {
-    certificateId: 1,
-    name: "John Doe",
-    policeCheck: "Pending",
-    idCheck: "Approved",
-    addressCheck: "Pending",
-    incidents: ["Incident 1", "Incident 2"],
-  },
-  {
-    certificateId: 2,
-    name: "Jane Smith",
-    policeCheck: "Approved",
-    idCheck: "Rejected",
-    addressCheck: "Approved",
-    incidents: ["Incident 3", "Incident 4"],
-  },
-  // Add more data as needed
-];*/
+
 
 const GramaTable = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [jsonData ,setjsonData ] = useState([]); 
+  const [criminalRecords,setcriminalrecords] = useState([]); 
+
 
   const handleExpand = (rowId) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
+    if(expandedRow !== rowId){
+      fetch(`http://localhost:9030/grama-certificate/crimesById?id=20006756432`, {
+        method: "GET",
+        credentials: "include",
+        })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); // Convert response to JSON
+        })
+        .then((data) => {
+          console.log(data);
+          //NIC: "20006756432", crime_id: 1001,  date: {year: 2023, month: 1, day: 1}, description: "Theft"
+          setcriminalrecords(data)
+          
+        })
+        .catch((error) => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+    
+    }
   };
   
   useEffect(() => {
@@ -92,16 +98,8 @@ const GramaTable = () => {
     })
     .then((data) => {
       // Handle the JSON data 
+      // NIC:"20006756432", address_check:false, division_id: 1, id_check: true , police_check: true, request_id: 1, status:1 
       console.log(data);
-      /*     
-      NIC:"20006756432"
-      address_check:false
-      division_id: 1
-      id_check: true
-      police_check: true
-      request_id: 1
-      status:1
-      */
       setjsonData(data)
     })
     .catch((error) => {
@@ -109,7 +107,8 @@ const GramaTable = () => {
       console.error('There was a problem with the fetch operation:', error);
     });
 
-  },[])
+  },[]);
+
 
   return (
     <TableWrapper>
@@ -117,14 +116,14 @@ const GramaTable = () => {
         <Table>
           <TableHead>
             <TableRow sx={{
-              backgroundColor:grey[300],
+              backgroundColor:grey[800],
             }}>
-              <CenteredTableCell>Certificate ID</CenteredTableCell>
-              <CenteredTableCell>NIC</CenteredTableCell>
-              <CenteredTableCell>ID Check</CenteredTableCell>
-              <CenteredTableCell>Address Check</CenteredTableCell>
-              <CenteredTableCell>Police Check</CenteredTableCell>
-              <CenteredTableCell>Actions</CenteredTableCell>
+              <CenteredTableCell sx={{color:"white"}}>Certificate ID</CenteredTableCell>
+              <CenteredTableCell sx={{color:"white"}}>NIC</CenteredTableCell>
+              <CenteredTableCell sx={{color:"white"}}>ID Check</CenteredTableCell>
+              <CenteredTableCell sx={{color:"white"}}>Address Check</CenteredTableCell>
+              <CenteredTableCell sx={{color:"white"}}>Police Check</CenteredTableCell>
+              <CenteredTableCell sx={{color:"white"}}>Actions</CenteredTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -138,15 +137,15 @@ const GramaTable = () => {
                   <CenteredTableCell>{row.police_check ? 'Approved':'Rejected'}</CenteredTableCell>
                   <CenteredTableCell>
                     <ButtonWrapper>
-                    <Button onClick={() => handleExpand(row.certificateId)}>
-                        <ExpandMoreIcon /> view criminal records
+                    <Button onClick={() => handleExpand(row.request_id)}>
+                        <ExpandMoreIcon/> view criminal records
                       </Button>
                       <Button
                         variant="contained"
                         color="primary"
                         onClick={() =>
                           console.log(
-                            `Approve certificate with ID ${row.certificateId}`
+                            `Approve certificate with ID ${row.request_id}`
                           )
                         }
                       >
@@ -157,7 +156,7 @@ const GramaTable = () => {
                         color="secondary"
                         onClick={() =>
                           console.log(
-                            `Reject certificate with ID ${row.certificateId}`
+                            `Reject certificate with ID ${row.request_id}`
                           )
                         }
                       >
@@ -167,16 +166,30 @@ const GramaTable = () => {
                     </ButtonWrapper>
                   </CenteredTableCell>
                 </TableRow>
-                {expandedRow === row.certificateId && (
-                  <IncidentRow>
-                    <TableCell colSpan={6}>
-                      <IncidentDetails>
-                        {row.incidents.map((incident, index) => (
-                          <div key={index}>{incident}</div>
-                        ))}
-                      </IncidentDetails>
+                {expandedRow === row.request_id && (
+                  <IncidentRow sx={{
+                    ml:3,
+                  }}>
+                    <TableCell colSpan={6} >
+                      
+                      <TableContainer component={Paper} sx={{backgroundColor: grey[100]}} >
+                       <Table aria-label="customized table">
+                          <TableBody  sx={{ paddingLeft:50}}>
+                            {criminalRecords.map((incident, index) => (
+                              <TableRow key={index}>
+                                <TableCell>{incident.crime_id}</TableCell>
+                                <TableCell>{`${incident.date.year} - ${incident.date.month} - ${incident.date.day}`}</TableCell>
+                                <TableCell>{incident.description}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                  </TableContainer>
+                      
                     </TableCell>
+                    
                   </IncidentRow>
+                  
                 )}
               </React.Fragment>
             ))}
