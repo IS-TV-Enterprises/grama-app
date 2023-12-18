@@ -27,16 +27,18 @@ const MasterHome = () => {
     const status = <div>Invalid Role</div>;
   }
 
-  getBasicUserInfo()
-    .then((basicUserDetails) => {
-      console.log(basicUserDetails);
-      console.log("username = " + basicUserDetails.username);
-      console.log("groups = " + basicUserDetails.groups);
-      setRole(basicUserDetails.groups[0]);
-    })
-    .catch((error) => {
-      // Handle the error
-    });
+  useEffect(() => {
+    getBasicUserInfo()
+      .then((basicUserDetails) => {
+        console.log(basicUserDetails);
+        console.log("username = " + basicUserDetails.username);
+        console.log("groups = " + basicUserDetails.groups);
+        setRole(basicUserDetails.groups[0]);
+      })
+      .catch((error) => {
+        // Handle the error
+      });
+  });
 
   useEffect(() => {
     getAccessToken()
@@ -46,7 +48,7 @@ const MasterHome = () => {
       .catch((error) => {
         //console.log(error);
       });
-  }, []);
+  });
 
   getDecodedIDToken()
     .then((decodedIDToken) => {
@@ -57,11 +59,17 @@ const MasterHome = () => {
     });
 
   console.log(role);
-  
-  if (role === "User") {
-    navigate("/gramaCertificate");
-  } else if (role === "Grama_Niladhari") {
-    navigate("/gramaNilHome");
+
+  if (state.isAuthenticated) {
+    if (!role) {
+      return <div>Loading....</div>;
+    }
+
+    if (role === "Grama_Niladhari") {
+      navigate("/gramaNilHome");
+    } else {
+      navigate("/gramaCertificate");
+    }
   } else {
     return (
       <div>

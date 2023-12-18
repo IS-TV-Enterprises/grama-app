@@ -1,7 +1,0 @@
-{
-  "baseUrl": "https://api.asgardeo.io/t/istventerprises",
-  "clientID": "ZNWVYs8ufKwvMdMydMht7gtn6DUa",
-  "scope": ["openid", "profile"],
-  "signInRedirectURL": "http://localhost:3000/home",
-  "signOutRedirectURL": "http://localhost:3000"
-}
