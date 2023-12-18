@@ -321,8 +321,8 @@ modules = [
 ]
 
 [[package]]
-org = "wso2"
-name = "greeter"
+org = "samith"
+name = "PoliceCheck"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
@@ -333,6 +333,6 @@ dependencies = [
 	{org = "ballerinax", name = "mysql.driver"}
 ]
 modules = [
-	{org = "wso2", packageName = "greeter", moduleName = "greeter"}
+	{org = "samith", packageName = "PoliceCheck", moduleName = "PoliceCheck"}
 ]
 
