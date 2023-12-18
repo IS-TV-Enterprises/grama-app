@@ -1,8 +1,7 @@
 {
-    "baseUrl": "https://api.asgardeo.io/t/istventerprises",
-    "clientID": "ZNWVYs8ufKwvMdMydMht7gtn6DUa",
-    "scope": ["openid", "profile"],
-    "signInRedirectURL": "http://localhost:3000/home",
-    "signOutRedirectURL": "http://localhost:3000"
-  }
-  
+  "baseUrl": "https://api.asgardeo.io/t/istventerprises",
+  "clientID": "ZNWVYs8ufKwvMdMydMht7gtn6DUa",
+  "scope": ["openid", "profile"],
+  "signInRedirectURL": "https://02362610-ee47-41f6-b67b-6dd9da3de110.e1-us-east-azure.choreoapps.dev/home",
+  "signOutRedirectURL": "https://02362610-ee47-41f6-b67b-6dd9da3de110.e1-us-east-azure.choreoapps.dev"
+}
