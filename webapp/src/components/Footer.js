@@ -19,7 +19,7 @@ const Footer = () => {
       justifyContent: 'center',
       width: '100%',
       bottom: 0,
-      mt:100,
+      mt:80,
               
     }} >
       <Typography color={grey[500]}>

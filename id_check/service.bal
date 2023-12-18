@@ -3,11 +3,11 @@ import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
 import ballerina/http;
 
-configurable string HOST = "mysql-241064b1-175e-4ca4-a458-67e0d6bb854d-identity2388360287-c.a.aivencloud.com";
-configurable int PORT = 11687;
-configurable string USER = "avnadmin";
-configurable string PASSWORD = "AVNS_EIZp_gjvMDa9Eu7B7MY";
-configurable string DATABASE = "defaultdb";
+configurable string HOST = ? ;
+configurable int PORT = ? ;
+configurable string USER = ? ;
+configurable string PASSWORD = ?;
+configurable string DATABASE = ?;
 
 type Citizen record {
     
@@ -22,9 +22,14 @@ mysql:Client dbClient = check new(
 );
 
 service /id_check on new http:Listener(9070) {
+
+    //check if the user exists in the Citizen table
+    //Output : true or false
+    
     resource function get citizen_by_NIC(string id) returns boolean|error {
         Citizen[] citizens = [];
-        stream<Citizen,sql:Error?> resultStream = dbClient->query(`SELECT * FROM Citizen WHERE NIC = ${id}`);
+        stream<Citizen,sql:Error?> resultStream = dbClient->query(`SELECT * FROM citizens WHERE NIC = ${id}`);
+        //get each item(citizen) in result stream and add it to the citizens[] list
         check from Citizen citizen in resultStream
             do {
                 citizens.push(citizen);

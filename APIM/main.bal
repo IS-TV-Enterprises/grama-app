@@ -31,7 +31,7 @@ public type certificate_request record {|
     string NIC;
     boolean id_check;
     boolean address_check;
-    //boolean police_check;
+    boolean police_check;
     int status;
 |};
 
@@ -76,7 +76,8 @@ isolated function addCertificateRequest(certificate_request_body req) returns in
     int|string? lastInsertId = result.lastInsertId;
     if lastInsertId is int {
         return lastInsertId;
-    } else {
+    } 
+    else {
         return error("Unable to obtain last insert ID");
     }
 }
