@@ -1,0 +1,7 @@
+{
+  "baseUrl": "https://api.asgardeo.io/t/istventerprises",
+  "clientID": "ZNWVYs8ufKwvMdMydMht7gtn6DUa",
+  "scope": ["openid", "profile"],
+  "signInRedirectURL": "https://05b9f9ad-96cd-48fc-a2d2-7847f855bfc2.e1-us-east-azure.choreoapps.dev/home",
+  "signOutRedirectURL": "https://05b9f9ad-96cd-48fc-a2d2-7847f855bfc2.e1-us-east-azure.choreoapps.dev"
+}
