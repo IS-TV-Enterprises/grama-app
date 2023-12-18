@@ -5,6 +5,7 @@ import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -89,7 +90,9 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Button title="Login" disabled={!request} onPress={() => promptAsync()} />
+      <TouchableOpacity title="Login" disabled={!request} onPress={() => promptAsync()} style={styles.loginButton} >
+      <Text style={styles.loginButtonText}>Login</Text>
+      </TouchableOpacity>
       <View style={styles.accessTokenBlock}>
         <Text>Access Token: {tokenResponse.access_token}</Text>
       </View>
@@ -100,7 +103,7 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'aliceblue',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -109,6 +112,18 @@ const styles = StyleSheet.create({
     height: 100,
     overflow: 'scroll',
     marginTop: 20,
+  },
+  loginButton: {
+    backgroundColor: 'orange', // Add your desired background color
+    borderRadius: 40, // Add rounded corners
+    padding: 20, // Add padding to give some space around the text
+    width: 200, 
+    elevation: 5,
+  },
+  loginButtonText: {
+    color: 'black', // Set text color
+    textAlign: 'center', // Center the text
+    fontSize: 20, // Set the font size
   },
 });
 
