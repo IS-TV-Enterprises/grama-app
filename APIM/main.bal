@@ -97,3 +97,9 @@ isolated function updateStatus(int status, int id) returns int|error{
 
         
 }
+
+isolated function crimesById(string Id) returns crime[]|error{
+    crime[] crimes = check policeCheckClient->get("/police-check/crimes_by_id?Id="+Id);
+    io:println(crimes);
+    return crimes;
+}
