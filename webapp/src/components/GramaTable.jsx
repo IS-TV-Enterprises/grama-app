@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { blue, grey, orange } from "@mui/material/node/colors";
 
 const TableWrapper = styled.div`
   display: flex;
@@ -47,8 +48,7 @@ const IncidentDetails = styled.div`
   padding: 10px;
 `;
 
-// Your JSON data
-const jsonData = [
+/*const jsonData = [
   {
     certificateId: 1,
     name: "John Doe",
@@ -66,40 +66,81 @@ const jsonData = [
     incidents: ["Incident 3", "Incident 4"],
   },
   // Add more data as needed
-];
+];*/
 
 const GramaTable = () => {
   const [expandedRow, setExpandedRow] = useState(null);
+  const [jsonData ,setjsonData ] = useState([]); 
 
   const handleExpand = (rowId) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
   };
+  
+  useEffect(() => {
+    console.log(" 'Get all grama certifactes' request called");
+
+    fetch(`http://localhost:9030/grama-certificate/allCertRequests`, {
+    method: "GET",
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      
+      return response.json(); // Convert response to JSON
+    })
+    .then((data) => {
+      // Handle the JSON data 
+      console.log(data);
+      /*     
+      NIC:"20006756432"
+      address_check:false
+      division_id: 1
+      id_check: true
+      police_check: true
+      request_id: 1
+      status:1
+      */
+      setjsonData(data)
+    })
+    .catch((error) => {
+      // Handle errors 
+      console.error('There was a problem with the fetch operation:', error);
+    });
+
+  },[])
 
   return (
     <TableWrapper>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow>
+            <TableRow sx={{
+              backgroundColor:grey[300],
+            }}>
               <CenteredTableCell>Certificate ID</CenteredTableCell>
-              <CenteredTableCell>Name</CenteredTableCell>
-              <CenteredTableCell>Police Check</CenteredTableCell>
+              <CenteredTableCell>NIC</CenteredTableCell>
               <CenteredTableCell>ID Check</CenteredTableCell>
               <CenteredTableCell>Address Check</CenteredTableCell>
+              <CenteredTableCell>Police Check</CenteredTableCell>
               <CenteredTableCell>Actions</CenteredTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {jsonData.map((row) => (
-              <React.Fragment key={row.certificateId}>
+              <React.Fragment key={row.request_id}>
                 <TableRow>
-                  <CenteredTableCell>{row.certificateId}</CenteredTableCell>
-                  <CenteredTableCell>{row.name}</CenteredTableCell>
-                  <CenteredTableCell>{row.policeCheck}</CenteredTableCell>
-                  <CenteredTableCell>{row.idCheck}</CenteredTableCell>
-                  <CenteredTableCell>{row.addressCheck}</CenteredTableCell>
+                  <CenteredTableCell>{row.request_id}</CenteredTableCell>
+                  <CenteredTableCell>{row.NIC}</CenteredTableCell>
+                  <CenteredTableCell>{row.id_check ? 'Approved':'Rejected'}</CenteredTableCell>
+                  <CenteredTableCell>{row.address_check ? 'Approved':'Rejected'}</CenteredTableCell>
+                  <CenteredTableCell>{row.police_check ? 'Approved':'Rejected'}</CenteredTableCell>
                   <CenteredTableCell>
                     <ButtonWrapper>
+                    <Button onClick={() => handleExpand(row.certificateId)}>
+                        <ExpandMoreIcon /> view criminal records
+                      </Button>
                       <Button
                         variant="contained"
                         color="primary"
@@ -122,9 +163,7 @@ const GramaTable = () => {
                       >
                         Reject
                       </Button>
-                      <Button onClick={() => handleExpand(row.certificateId)}>
-                        <ExpandMoreIcon />
-                      </Button>
+                     
                     </ButtonWrapper>
                   </CenteredTableCell>
                 </TableRow>

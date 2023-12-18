@@ -14,7 +14,7 @@ import ballerina/log;
 
 
 service /grama\-certificate on new http:Listener(9030) {
-
+    //get all certificate requests
     isolated resource function get allCertRequests() returns certificate_request[]|error{
          log:printInfo("Transaction committed");
         certificate_request[] certificate_requests = [];
