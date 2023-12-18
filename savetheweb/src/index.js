@@ -1,13 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { AuthProvider } from "@asgardeo/auth-react";
+import configdata from "./config.json";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+const config = {
+  baseUrl: configdata.baseUrl,
+  clientID: configdata.clientID,
+  scope: configdata.scope,
+  signInRedirectURL: configdata.signInRedirectURL,
+  signOutRedirectURL: configdata.signOutRedirectURL,
+};
+
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider config={config}>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 );
 
