@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import AppBar from "@mui/material/AppBar";
@@ -36,16 +36,19 @@ const linkStyles = {
 const Navtop = (props) => {
   const { state, signIn, signOut, getBasicUserInfo } = useAuthContext();
   const [role, setRole] = useState("");
-  getBasicUserInfo()
-    .then((basicUserDetails) => {
-      console.log(basicUserDetails);
-      console.log("username = " + basicUserDetails.username);
-      console.log("groups = " + basicUserDetails.groups);
-      setRole(basicUserDetails.groups);
-    })
-    .catch((error) => {
-      // Handle the error
-    });
+
+  useEffect(() => {
+    getBasicUserInfo()
+      .then((basicUserDetails) => {
+        console.log(basicUserDetails);
+        console.log("username = " + basicUserDetails.username);
+        console.log("groups = " + basicUserDetails.groups);
+        setRole(basicUserDetails.groups);
+      })
+      .catch((error) => {
+        // Handle the error
+      });
+  }, [state]);
 
   let user = state.isAuthenticated;
 
