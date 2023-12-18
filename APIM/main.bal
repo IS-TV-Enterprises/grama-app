@@ -49,22 +49,25 @@ final mysql:Client dbClient = check new(
 // police check service
 final http:Client policeCheckClient = check new ("localhost:9090");
 
+// Id check service
+final http:Client IDCheckClient = check new ("localhost:9070");
+
+
 // address check service
 
-// Id check service
 
 isolated function addCertificateRequest(certificate_request_body req) returns int|error {
 
     // get police_check value from police check service
     int police_check = check policeCheckClient->get("/police-check/crime_check_by_id?Id="+req.NIC);
-    io:println(police_check);
+    io:println("police check result",police_check);
 
-    // get address_check value from police check service
-    int address_check = 1;
+    // get address_check value from address check service
+    int address_check = 1; 
 
-    // get Id_check value from police check service
-    int Id_check = 1;
-
+    // get Id_check value from ID check service
+    int Id_check = check IDCheckClient->get("/id_check/citizen_by_NIC?id="+req.NIC);
+    io:println("Id check output",Id_check);
 
     // intial request status (processing=0, approved=1, rejected=2, smth like that)
     int request_status=0;
@@ -100,6 +103,6 @@ isolated function updateStatus(int status, int id) returns int|error{
 
 isolated function crimesById(string Id) returns crime[]|error{
     crime[] crimes = check policeCheckClient->get("/police-check/crimes_by_id?Id="+Id);
-    io:println(crimes);
+    //io:println(crimes);
     return crimes;
 }

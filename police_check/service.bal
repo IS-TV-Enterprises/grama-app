@@ -44,9 +44,14 @@ service /police\-check on new http:Listener(9090) {
     //Input : user ID
     //output : int (0/1) where 1 = has crime records & 0 = no crime records
     resource function get crime_check_by_id(string Id) returns int|error{
-        sql:ParameterizedQuery query = `SELECT EXISTS(SELECT 1 FROM crimes WHERE id=${Id}) AS result;`;
-        int police_check = check dbClient->queryRow(query);
+        sql:ParameterizedQuery query = `SELECT  count(*) as result from grama_request.crimes where id=${Id}`;
+        int records = check dbClient->queryRow(query);
+        int police_check=0;
+        if(records>0){
+             police_check = 1;
+        }
         return police_check;
     }
+    
 
 }

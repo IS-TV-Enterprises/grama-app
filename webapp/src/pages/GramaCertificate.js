@@ -26,13 +26,23 @@ export default function GramaCertificate() {
   const [gramaDivision, setgramaDivision] = useState('');
   const [reports,setReports] = useState('Hello');
 
+  const postData = {
+    "division_id": 2,
+    "NIC": "196656432",
+    "address": "No:78/2,Kandy Rd,Dehiwala"
+  }
 
   const handleSubmit = (event) => {
     //event.preventDefault();
     console.log("handle submit called");
-    fetch(`http://localhost:9030/grama-certificate/allCertRequests`, {
-    method: "GET",
+    fetch(`http://localhost:9030/grama-certificate/addCertificateRequest`, {
+    method: "POST",
     credentials: "include",
+    headers: {
+      'Content-Type': 'application/json', // Specify content type as JSON
+      
+    },
+    body: JSON.stringify(postData)
   })
     .then((response) => {
       if (!response.ok) {

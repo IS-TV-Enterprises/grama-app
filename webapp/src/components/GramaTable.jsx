@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { grey } from "@mui/material/node/colors";
+import { Typography } from "@mui/material";
 
 const TableWrapper = styled.div`
   display: flex;
@@ -56,10 +57,11 @@ const GramaTable = () => {
   const [criminalRecords,setcriminalrecords] = useState([]); 
 
 
-  const handleExpand = (rowId) => {
+  const handleExpand = (rowId,NIC) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
+    console.log("request Id is",NIC);
     if(expandedRow !== rowId){
-      fetch(`http://localhost:9030/grama-certificate/crimesById?id=20006756432`, {
+      fetch(`http://localhost:9030/grama-certificate/crimesById?id=${NIC}`, {
         method: "GET",
         credentials: "include",
         })
@@ -134,10 +136,10 @@ const GramaTable = () => {
                   <CenteredTableCell>{row.NIC}</CenteredTableCell>
                   <CenteredTableCell>{row.id_check ? 'Approved':'Rejected'}</CenteredTableCell>
                   <CenteredTableCell>{row.address_check ? 'Approved':'Rejected'}</CenteredTableCell>
-                  <CenteredTableCell>{row.police_check ? 'Approved':'Rejected'}</CenteredTableCell>
+                  <CenteredTableCell>{row.police_check ? 'Rejected': 'Approved'}</CenteredTableCell>
                   <CenteredTableCell>
                     <ButtonWrapper>
-                    <Button onClick={() => handleExpand(row.request_id)}>
+                    <Button onClick={() => handleExpand(row.request_id, row.NIC)}>
                         <ExpandMoreIcon/> view criminal records
                       </Button>
                       <Button
@@ -171,8 +173,20 @@ const GramaTable = () => {
                     ml:3,
                   }}>
                     <TableCell colSpan={6} >
+                    {criminalRecords.length === 0 ? (
+                          <TableContainer component={Paper} sx={{backgroundColor: grey[100] , paddingLeft:5,paddingRight:10 }} >
+                          <Table aria-label="customized table">
+                             <TableBody  sx={{ paddingLeft:50}}>
+                                  <TableRow>
+                                  <TableCell>No criminal records</TableCell>
+                                  </TableRow>
+                               
+                             </TableBody>
+                           </Table>
+                     </TableContainer>
+                        ) : (
                       
-                      <TableContainer component={Paper} sx={{backgroundColor: grey[100]}} >
+                      <TableContainer component={Paper} sx={{backgroundColor: grey[100] , paddingLeft:5,paddingRight:10 }} >
                        <Table aria-label="customized table">
                           <TableBody  sx={{ paddingLeft:50}}>
                             {criminalRecords.map((incident, index) => (
@@ -185,7 +199,7 @@ const GramaTable = () => {
                           </TableBody>
                         </Table>
                   </TableContainer>
-                      
+                        )}
                     </TableCell>
                     
                   </IncidentRow>
