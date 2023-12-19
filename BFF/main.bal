@@ -9,7 +9,7 @@ import ballerina/url;
 public type division_record record {|
     @sql:Column { name: "division_id" }
     int division_id;
-     @sql:Column { name: "division" }
+    @sql:Column { name: "division" }
     string division;
 |};
 

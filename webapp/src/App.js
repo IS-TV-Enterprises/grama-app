@@ -40,7 +40,7 @@ function App() {
 
           </Routes>
         </Box>
-        <Footer />
+       
       </BrowserRouter>
     </Box>
   );
