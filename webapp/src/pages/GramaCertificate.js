@@ -24,18 +24,43 @@ const defaultTheme = createTheme();
 
 export default function GramaCertificate() {
   const [gramaDivision, setgramaDivision] = useState('');
+  const [reports,setReports] = useState('Hello');
 
-  const handleChange = (event) => {
-    setgramaDivision(event.target.value);
+  const postData = {
+    "division_id": 1,
+    "NIC": "19879956432",
+    "address": "Main Street,Apt 4"
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    //event.preventDefault();
+    console.log("handle submit called");
+    fetch(`http://localhost:9030/grama-certificate/addCertificateRequest`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      'Content-Type': 'application/json', // Specify content type as JSON
+      
+    },
+    body: JSON.stringify(postData)
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      console.log(response)
+      return response.json(); // Convert response to JSON
+    })
+    .then((data) => {
+      // Handle the JSON data here
+      console.log(data);
+      setReports(data)
+    })
+    .catch((error) => {
+      // Handle errors here
+      console.error('There was a problem with the fetch operation:', error);
     });
+
   };
 
   return (
@@ -59,15 +84,18 @@ export default function GramaCertificate() {
         }}>
           <Typography variant="h3" component="h3" 
           sx={{
-            mt:14,
+            mt:13,
             fontFamily: 'Whisper',
             color: orange[800],
             
           }}
         > Welcome to Grama App</Typography>
+        <Button onClick={handleSubmit}> Try btn</Button>
           
 
         </Box>
+        
+        
         <Box
           sx={{
             marginTop: 6,
@@ -79,7 +107,9 @@ export default function GramaCertificate() {
             backgroundColor: grey[200],
             borderRadius: "18px",
             boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.1)",
+           
           }}
+          
         >
           <Typography
             component="h1"
@@ -92,7 +122,6 @@ export default function GramaCertificate() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -114,7 +143,6 @@ export default function GramaCertificate() {
                       id="grama-division"
                       value={gramaDivision}
                       label="grama-division"
-                      onChange={handleChange}
                        >
                       <MenuItem value={10}>Ten</MenuItem>
                       <MenuItem value={20}>Twenty</MenuItem>
@@ -190,6 +218,7 @@ export default function GramaCertificate() {
                   height: "8vh",
                   backgroundColor: orange[600],
                 }}
+                
               >
                 <Typography>Submit</Typography>
               </Button>
@@ -197,6 +226,9 @@ export default function GramaCertificate() {
             <HelpButton/>
           </Box>
         </Box>
+        
+        
+       
       </Container>
     </ThemeProvider>
   );
