@@ -32,12 +32,16 @@ const HelpForm = () => {
     };
 
     try {
-      await axios.post("http://localhost:8080/sendmsgjson", payload, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
+      await axios.post(
+        "https://cf3a4176-54c9-4547-bcd6-c6fe400ad0d8-prod.e1-us-east-azure.choreoapis.dev/laot/slack/endpoint-8080-5c6/v1.0/sendmsgjson",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
 
       console.log("Message sent successfully!");
       // Handle successful response if needed (though the response body won't be accessible)
@@ -62,7 +66,15 @@ const HelpForm = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 600, margin: "0 auto",  mt:5, padding: 4 ,backgroundColor:grey[200] ,}}>
+    <Box
+      sx={{
+        maxWidth: 600,
+        margin: "0 auto",
+        mt: 5,
+        padding: 4,
+        backgroundColor: grey[200],
+      }}
+    >
       <Typography variant="h5" align="center" gutterBottom>
         Help Form
       </Typography>
