@@ -27,9 +27,9 @@ export default function GramaCertificate() {
   const [reports,setReports] = useState('Hello');
 
   const postData = {
-    "division_id": 2,
-    "NIC": "196656432",
-    "address": "No:78/2,Kandy Rd,Dehiwala"
+    "division_id": 1,
+    "NIC": "19879956432",
+    "address": "Main Street,Apt 4"
   }
 
   const handleSubmit = (event) => {

@@ -4,7 +4,8 @@ import ballerinax/mysql.driver as _; // This bundles the driver to the project s
 import ballerina/sql;
 import ballerina/http;
 import ballerina/io;
-//import ballerina/io;
+import ballerina/url;
+
 
 
 public type crime record {|
@@ -33,6 +34,7 @@ public type certificate_request record {|
     boolean address_check;
     boolean police_check;
     int status;
+    time:Date date_submitted;
 |};
 
 
@@ -58,32 +60,40 @@ final http:Client AddressCheckClient = check new ("localhost:9050");
 
 //Inpput parameters : NIC, Address, division id
 isolated function addCertificateRequest(certificate_request_body req) returns int|error {
+    // Encoding a URL component into a string.
+    string encodedAddress = check url:encode(req.address, "UTF-8");
 
     // get police_check value from police check service
     int police_check = check policeCheckClient->get("/police-check/crime_check_by_id?Id="+req.NIC);
-    io:println("police check result",police_check);
+    
 
     // get Id_check value from ID check service
     //returns the address_id if there's a user
     int address_Id = check IDCheckClient->get("/id_check/citizen_by_NIC?id="+req.NIC);
-    io:println("Id check output",address_Id);
 
-   int Id_check = address_Id>0 ? 1 : 0;
+
+    int Id_check = address_Id > 0 ? 1 : 0;
 
     // get address_check value from address check service
-    int address_check = check AddressCheckClient->get(string `/address-check/check_user_address_and_division?addressId=${address_Id}&divisionId=${req.division_id}&userAddress=${req.address}`);
-
-
-
-    
+    int address_check = check AddressCheckClient->get(string `/address-check/check_user_address_and_division?addressId=${address_Id}&divisionId=${req.division_id}&userAddress=${encodedAddress}`);
 
     // intial request status (processing=0, approved=1, rejected=2, smth like that)
     int request_status=0;
+    
+    //req time
+    time:Utc currTime = time:utcNow();
+    string dateUtc = time:utcToString(currTime);
+   
+    string date = dateUtc.substring(0, 10);
+    io:println(date);
+    io:println("Date: ", date);
+    
+
 
     // insert certificate request to database with police_check value
     sql:ExecutionResult result = check dbClient->execute(`
-        INSERT INTO certificate_requests (division_id, NIC, Id_check, address_check, police_check, status)
-        VALUES (${req.division_id}, ${req.NIC}, ${Id_check}, ${address_check}, ${police_check}, ${request_status})`);
+        INSERT INTO certificate_requests (division_id, NIC, Id_check, address_check, police_check, status,date_submitted)
+        VALUES (${req.division_id}, ${req.NIC}, ${Id_check}, ${address_check}, ${police_check}, ${request_status},${date})`);
     int|string? lastInsertId = result.lastInsertId;
     if lastInsertId is int {
         return lastInsertId;

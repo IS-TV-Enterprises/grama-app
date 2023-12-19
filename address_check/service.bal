@@ -1,6 +1,7 @@
 import ballerinax/mysql;
 import ballerinax/mysql.driver as _; // This bundles the driver to the project so that you don't need to bundle it via the `Ballerina.toml` file.
 import ballerina/http;
+import ballerina/io;
 
 // -- Insert data into Division table
 // INSERT INTO Division (division_id, division_name) VALUES
@@ -55,6 +56,7 @@ service /address\-check on new http:Listener(9050) {
     //APIM should send the address Id of the user after getting it from the id check
     //user should send the divisionId(selects the division from drop down menu in frontend) and the address
      resource function get check_user_address_and_division(int addressId,int divisionId,string userAddress) returns int|error{
+        io:println(addressId,divisionId,userAddress);
         address[] addressRecords =[];
         stream<address, error?> resultStream = dbClient->query(`select * from address where Address_id=${addressId} and division_id =${divisionId} and address=${userAddress}`);
         check from address address in resultStream
