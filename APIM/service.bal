@@ -18,7 +18,7 @@ service /grama\-certificate on new http:Listener(9030) {
     isolated resource function get allCertRequests() returns certificate_request[]|error{
 
         certificate_request[] certificate_requests = [];
-        stream<certificate_request, error?> resultStream = dbClient->query(`select * from certificate_requests`);
+        stream<certificate_request, error?> resultStream = dbClient->query(`select * from certificate_requests where status = 0`);
         check from certificate_request req in resultStream
             do {
                 certificate_requests.push(req);
@@ -34,12 +34,12 @@ service /grama\-certificate on new http:Listener(9030) {
         return addCertificateRequest(req);
     }
 
-    isolated resource function get allDivisions() returns string[]|error{
-        string[] divisions = [];
-        stream<record{|string division;|}, error?> resultStream = dbClient->query(`select division from divisions;`);
-        check from record{|string division;|}? result in resultStream
+  isolated resource function get allDivisions() returns division_record[]|error {
+        division_record[] divisions = [];
+        stream<division_record, error?> resultStream = dbClient->query(`select * from divisions;`);
+        check from division_record result in resultStream
             do {
-                divisions.push(result.division);
+                divisions.push(result);
             };
         check resultStream.close();
         return divisions;

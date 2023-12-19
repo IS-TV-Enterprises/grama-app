@@ -6,6 +6,12 @@ import ballerina/http;
 import ballerina/io;
 import ballerina/url;
 
+public type division_record record {|
+    @sql:Column { name: "division_id" }
+    int division_id;
+     @sql:Column { name: "division" }
+    string division;
+|};
 
 
 public type crime record {|
