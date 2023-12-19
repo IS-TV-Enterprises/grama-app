@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
 
+
 WebBrowser.maybeCompleteAuthSession();
 
 const redirectUri = AuthSession.makeRedirectUri({
@@ -22,7 +23,7 @@ const LoginScreen = () => {
   const discovery = AuthSession.useAutoDiscovery(
     'https://api.asgardeo.io/t/istventerprises/oauth2/token'
   );
-  const [tokenResponse, setTokenResponse] = useState({});
+  //const [tokenResponse, setTokenResponse] = useState({});
   const [request, result, promptAsync] = AuthSession.useAuthRequest(
     {
       redirectUri,
@@ -32,6 +33,16 @@ const LoginScreen = () => {
     },
     discovery
   );
+
+  const handleLogin = () => {
+    // console.log(result.type)
+    // console.log("lol")
+    promptAsync();
+  };
+
+
+
+
 
   const storeAccessToken = async (accessToken) => {
     try {
@@ -59,13 +70,17 @@ const LoginScreen = () => {
           await storeAccessToken(data.access_token);
 
           // Update the state with the token response
-          setTokenResponse(data);
+          //setTokenResponse(data);
+          console.log(data.access_token)
+          //console.log(tokenResponse.access_token)
         })
         .catch((err) => {
           console.log(err);
         });
     }
   };
+
+
 
   useEffect(() => {
     (async function setResult() {
@@ -80,9 +95,7 @@ const LoginScreen = () => {
         if (result.type === 'success') {
           getAccessToken();
           console.log(result.type);
-          navigation.navigate('CertificateRequestPage', {
-            accessToken: tokenResponse.access_token,
-          });
+          navigation.navigate('CertificateRequestPage');
         }
       }
     })();
@@ -90,12 +103,12 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity title="Login" disabled={!request} onPress={() => promptAsync()} style={styles.loginButton} >
+      <View style={styles.appName}>
+      <Text style={styles.titleText}>Grama - App</Text>
+      </View>
+      <TouchableOpacity title="Login" disabled={!request} onPress={() => handleLogin()} style={styles.loginButton} >
       <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
-      <View style={styles.accessTokenBlock}>
-        <Text>Access Token: {tokenResponse.access_token}</Text>
-      </View>
     </View>
   );
 };
@@ -107,11 +120,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  accessTokenBlock: {
+  appName: {
     width: 300,
-    height: 100,
-    overflow: 'scroll',
-    marginTop: 20,
+    backgroundColor: 'gainsboro',
+    padding : 20,
+    marginBottom: 40,
+    borderRadius: 40,
   },
   loginButton: {
     backgroundColor: 'orange', // Add your desired background color
@@ -121,9 +135,15 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   loginButtonText: {
-    color: 'black', // Set text color
+    color: 'midnightblue', // Set text color
     textAlign: 'center', // Center the text
     fontSize: 20, // Set the font size
+  },
+  titleText: {
+    color: 'midnightblue', // Set text color
+    textAlign: 'center', // Center the text
+    fontSize: 40, // Set the font size
+    fontWeight: 'bold',
   },
 });
 
@@ -231,6 +251,4 @@ export default LoginScreen;
 // });
 
 // export default LoginScreen;
-
-
 
