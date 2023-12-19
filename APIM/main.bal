@@ -54,20 +54,28 @@ final http:Client IDCheckClient = check new ("localhost:9070");
 
 
 // address check service
+final http:Client AddressCheckClient = check new ("localhost:9050");
 
-
+//Inpput parameters : NIC, Address, division id
 isolated function addCertificateRequest(certificate_request_body req) returns int|error {
 
     // get police_check value from police check service
     int police_check = check policeCheckClient->get("/police-check/crime_check_by_id?Id="+req.NIC);
     io:println("police check result",police_check);
 
-    // get address_check value from address check service
-    int address_check = 1; 
-
     // get Id_check value from ID check service
-    int Id_check = check IDCheckClient->get("/id_check/citizen_by_NIC?id="+req.NIC);
-    io:println("Id check output",Id_check);
+    //returns the address_id if there's a user
+    int address_Id = check IDCheckClient->get("/id_check/citizen_by_NIC?id="+req.NIC);
+    io:println("Id check output",address_Id);
+
+   int Id_check = address_Id>0 ? 1 : 0;
+
+    // get address_check value from address check service
+    int address_check = check AddressCheckClient->get(string `/address-check/check_user_address_and_division?addressId=${address_Id}&divisionId=${req.division_id}&userAddress=${req.address}`);
+
+
+
+    
 
     // intial request status (processing=0, approved=1, rejected=2, smth like that)
     int request_status=0;

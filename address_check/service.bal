@@ -22,8 +22,7 @@ import ballerina/http;
 
 public type address record {
     int address_id;
-    string address_line1;
-    string address_line2;
+    string address;
     int division_id;
 };
 
@@ -52,6 +51,20 @@ mysql:Client dbClient = check new(
 
 
 service /address\-check on new http:Listener(9050) {
+
+    //APIM should send the address Id of the user after getting it from the id check
+    //user should send the divisionId(selects the division from drop down menu in frontend) and the address
+     resource function get check_user_address_and_division(int addressId,int divisionId,string userAddress) returns int|error{
+        address[] addressRecords =[];
+        stream<address, error?> resultStream = dbClient->query(`select * from address where Address_id=${addressId} and division_id =${divisionId} and address=${userAddress}`);
+        check from address address in resultStream
+            do {
+                addressRecords.push(address);
+            };
+        check resultStream.close();
+        return addressRecords.length() == 1? 1:0;
+    }
+
     //return the address when the address id is given as the input
     //uses 'address table'
     resource function get address_by_id(string Id) returns address[]|error{
@@ -76,16 +89,10 @@ service /address\-check on new http:Listener(9050) {
     };
     check resultStream.close();
     return addresses.indexOf(address_id) !== -1 ? true : false;
+
     }
 
+    
 
-
-    // resource function get division_by_NIC(string NIC) returns division|error{
-    //     stream<division, error?> resultStream = dbClient->query(`select * from GramaNiladari where NIC=${NIC}`);
-    //     check resultStream.hasNext();
-    //     division division = check resultStream.next();
-    //     check !resultStream.hasNext();
-    //     check resultStream.close();
-    //     return division;
-    // }
 }
+

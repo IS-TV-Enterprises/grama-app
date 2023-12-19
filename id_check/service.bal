@@ -17,6 +17,8 @@ type Citizen record {
     int address_id;
 };
 
+
+
 mysql:Client dbClient = check new(
     host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE
 );
@@ -24,7 +26,7 @@ mysql:Client dbClient = check new(
 service /id_check on new http:Listener(9070) {
 
     //check if the user exists in the Citizen table
-    //Output : true or false
+    //Output : if a citizen exits returns his address_id(>0), if not returns 0
     
     resource function get citizen_by_NIC(string id) returns int|error {
         Citizen[] citizens = [];
@@ -36,7 +38,9 @@ service /id_check on new http:Listener(9070) {
             };
         check resultStream.close();
 
-        return citizens.length() == 0 ? 0 : 1;
+        return citizens.length() > 0 ? citizens[0].address_id : 0;
     }
+
+     
 
 }
