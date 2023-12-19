@@ -6,6 +6,12 @@ import ballerina/http;
 import ballerina/io;
 import ballerina/url;
 
+public type division_record record {|
+    @sql:Column { name: "division_id" }
+    int division_id;
+     @sql:Column { name: "division" }
+    string division;
+|};
 
 
 public type crime record {|
@@ -43,20 +49,23 @@ configurable string PASSWORD = ?;
 configurable string HOST = ?;
 configurable int PORT = ?;
 configurable string DATABASE = ?;
+configurable string POLICE_CHECK_SERVICE = ?;
+configurable string ID_CHECK_SERVICE = ?;
+configurable string ADDRESS_CHECK_SERVICE = ?;
 
 final mysql:Client dbClient = check new(
     host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE
 );
 
 // police check service
-final http:Client policeCheckClient = check new ("localhost:9090");
+final http:Client policeCheckClient = check new (POLICE_CHECK_SERVICE);
 
 // Id check service
-final http:Client IDCheckClient = check new ("localhost:9070");
+final http:Client IDCheckClient = check new (ID_CHECK_SERVICE);
 
 
 // address check service
-final http:Client AddressCheckClient = check new ("localhost:9050");
+final http:Client AddressCheckClient = check new (ADDRESS_CHECK_SERVICE);
 
 //Inpput parameters : NIC, Address, division id
 isolated function addCertificateRequest(certificate_request_body req) returns int|error {
