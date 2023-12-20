@@ -2,36 +2,25 @@ import { Typography ,Box,Container} from "@mui/material";
 import CertificateStatusTable from "../components/CertificateStatusTable"
 import HelpButton from "../components/HelpButton";
 import { useEffect, useState } from "react";
-
-
+import config from '../config.json'; 
 
 
 
 const CheckStatus = () => {
-  // Sample data
- /* 
-  NIC:"1234"
-  address_check:false
-  date_submitted: {year: 2023, month: 12, day: 19}
-  division_id: 1
-  id_check: false
-  police_check:false
-  request_id: 34
-  status:1
-  */
 
     const [certReqData,setcertReqData] = useState([]);
-    
-
+    //const api_url = http://localhost:9030
+    const api_url = config.api_url;
+  
     //get status  of the certificates requested by the user
     useEffect(() => {
 
     //Get user's NIC from the access token
     const NIC = '19879956432';
 
-    console.log("get grama certificates requested by the user");
+    console.log("get grama certificates requested by the user",api_url);
 
-    fetch(`http://localhost:9030/grama-certificate/allCertRequestsById?id=${NIC}`, {
+    fetch(`${api_url}/grama-certificate/allCertRequestsById?id=${NIC}`, {
     method: "GET",
     credentials: "include",
     })
@@ -44,6 +33,17 @@ const CheckStatus = () => {
     })
     .then((data) => {
       console.log(data);
+       // Sample data
+          /* 
+            NIC:"1234"
+            address_check:false
+            date_submitted: {year: 2023, month: 12, day: 19}
+            division_id: 1
+            id_check: false
+            police_check:false
+            request_id: 34
+            status:1
+            */
       setcertReqData(data)
     })
     .catch((error) => {

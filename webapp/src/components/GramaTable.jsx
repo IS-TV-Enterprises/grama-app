@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { grey } from "@mui/material/node/colors";
-import { Typography } from "@mui/material";
+import config from '../config.json'; 
 
 const TableWrapper = styled.div`
   display: flex;
@@ -55,13 +55,17 @@ const GramaTable = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [jsonData ,setjsonData ] = useState([]); 
   const [criminalRecords,setcriminalrecords] = useState([]); 
+  
+  //const api_url = http://localhost:9030
+  const api_url = config.api_url;
+  
 
 
   const handleExpand = (rowId,NIC) => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
     console.log("request Id is",NIC);
     if(expandedRow !== rowId){
-      fetch(`http://localhost:9030/grama-certificate/crimesById?id=${NIC}`, {
+      fetch(`${api_url}/grama-certificate/crimesById?id=${NIC}`, {
         method: "GET",
         credentials: "include",
         })
@@ -86,7 +90,7 @@ const GramaTable = () => {
 
   const approveOrRejectRequest = (reqId,status) => {
     console.log("approve request Id ",reqId);
-    fetch(`http://localhost:9030/grama-certificate/updateStatus?status=${status}&id=${reqId}`, {
+    fetch(`${api_url}/grama-certificate/updateStatus?status=${status}&id=${reqId}`, {
       method: "PATCH",
       credentials: "include",
       })
@@ -113,7 +117,7 @@ const GramaTable = () => {
   useEffect(() => {
     console.log(" 'Get all grama certifactes' request called");
 
-    fetch(`http://localhost:9030/grama-certificate/allCertRequests`, {
+    fetch(`${api_url}/grama-certificate/allCertRequests`, {
     method: "GET",
     credentials: "include",
   })

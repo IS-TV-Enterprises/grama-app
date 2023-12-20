@@ -17,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import form from "../Assets/people.jpg";
+import config from '../config.json'; 
 
 
 
@@ -26,6 +27,7 @@ const defaultTheme = createTheme();
 export default function GramaCertificate() {
   const [gramaDivisions, setgramaDivisions] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState('');
+  const api_url = config.api_url;
   
   //Handle submission of the grama certificate request form
   const handleSubmit = (event) => {
@@ -37,7 +39,7 @@ export default function GramaCertificate() {
     }
 
     console.log("handle submit called");
-    fetch(`http://localhost:9030/grama-certificate/addCertificateRequest`, {
+    fetch(`${api_url}/grama-certificate/addCertificateRequest`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -67,7 +69,7 @@ export default function GramaCertificate() {
   useEffect(() => {
     console.log(" get grama divisions");
 
-    fetch(`http://localhost:9030/grama-certificate/allDivisions`, {
+    fetch(`${api_url}/grama-certificate/allDivisions`, {
     method: "GET",
     credentials: "include",
   })
