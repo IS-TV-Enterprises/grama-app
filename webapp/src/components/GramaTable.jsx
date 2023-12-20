@@ -98,6 +98,7 @@ const GramaTable = () => {
       })
       .then((data) => {
         console.log(data);
+        setjsonData((jsonData) => jsonData.filter((record) => record.request_id !== reqId));
         
       })
       .catch((error) => {
