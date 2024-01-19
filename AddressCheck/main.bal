@@ -58,7 +58,7 @@ service /address\-check on new http:Listener(9050) {
      resource function get check_user_address_and_division(int addressId,int divisionId,string userAddress) returns int|error{
         io:println(addressId,divisionId,userAddress);
         address[] addressRecords =[];
-        stream<address, error?> resultStream = dbClient->query(`select * from address where Address_id=${addressId} and division_id =${divisionId} and address=${userAddress}`);
+        stream<address, error?> resultStream = dbClient->query(`select * from address where address_id=${addressId} and division_id =${divisionId} and address=${userAddress}`);
         check from address address in resultStream
             do {
                 addressRecords.push(address);
@@ -71,7 +71,7 @@ service /address\-check on new http:Listener(9050) {
     //uses 'address table'
     resource function get address_by_id(string Id) returns address[]|error{
         address[] addresses = [];
-        stream<address, error?> resultStream = dbClient->query(`select * from Address where Address_id=${Id}`);
+        stream<address, error?> resultStream = dbClient->query(`select * from address where address_id=${Id}`);
         check from address address in resultStream
             do {
                 addresses.push(address);
