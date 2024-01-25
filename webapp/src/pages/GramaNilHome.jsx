@@ -1,4 +1,3 @@
-import HelpForm from "../components/HelpForm";
 import GramaTable from "../components/GramaTable";
 import Banner from "../components/GNilBanner";
 

@@ -57,7 +57,7 @@ const CheckStatus = () => {
 
  
   return (
-    <Box>
+    <Box mb={5}>
        <Container>
       <Box mt={4} textAlign="center" mb={4}>
         <Typography component="h1" variant="h5" marginBottom={2} fontWeight={"bold"}>

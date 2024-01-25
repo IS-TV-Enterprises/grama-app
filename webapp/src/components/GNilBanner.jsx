@@ -72,7 +72,7 @@ const Banner = () => {
                   sx={{
                     ml: 8,
                     width: "14vw",
-                    height: "3vw",
+                    height: "10vw",
 
                     backgroundColor: orange[800],
 
