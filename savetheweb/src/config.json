@@ -3,5 +3,6 @@
   "clientID": "VYWJKVIiACAImu8OOqgUr40BBAAa",
   "scope": ["openid", "profile"],
   "signInRedirectURL": "https://bf4726e1-884b-4e5b-b7b7-86f410b9dbe3.e1-us-east-azure.choreoapps.dev/home",
-  "signOutRedirectURL": "https://bf4726e1-884b-4e5b-b7b7-86f410b9dbe3.e1-us-east-azure.choreoapps.dev"
+  "signOutRedirectURL": "https://bf4726e1-884b-4e5b-b7b7-86f410b9dbe3.e1-us-east-azure.choreoapps.dev",
+  "api_url" : "https://cf3a4176-54c9-4547-bcd6-c6fe400ad0d8-dev.e1-us-east-azure.choreoapis.dev/laot/bff/grama-certificate-91e/v1.0"
 }

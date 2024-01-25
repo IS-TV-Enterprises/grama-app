@@ -71,8 +71,8 @@ const Banner = () => {
                   variant="contained"
                   sx={{
                     ml: 8,
-                    width: "14vw",
-                    height: "3vw",
+                    width: "18vw",
+                    height: "4vw",
 
                     backgroundColor: orange[800],
 
