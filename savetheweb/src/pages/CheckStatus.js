@@ -56,14 +56,15 @@ const CheckStatus = () => {
 
  
   return (
-    <Box mb={5}>
+    <Box >
        <Container>
       <Box mt={4} textAlign="center" mb={4}>
         <Typography component="h1" variant="h5" marginBottom={2} fontWeight={"bold"}>
               Your Grama Certificates</Typography>
       </Box>
-    </Container>
-      <CertificateStatusTable reportsData={certReqData} />
+    
+      <CertificateStatusTable  reportsData={certReqData} />
+      </Container>
       <HelpButton/>
     </Box>
   );

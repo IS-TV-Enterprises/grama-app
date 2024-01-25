@@ -30,9 +30,11 @@ import { orange } from '@mui/material/colors';
 const PreviousReportsTable = ({ reportsData }) => {
  
   return (
-    <Container component="main" maxWidth="xl" sx={{
+    <Container component="main" maxWidth="xl" 
+    sx={{
         display:"flex",
         justifyContent:"center",
+        marginBottom: 10,
        
     }}>
     <TableContainer component={Paper} sx={{ maxWidth: 'lg', backgroundColor: orange[50], }} >
