@@ -72,7 +72,7 @@ export default function GramaCertificate() {
 
     fetch(`${api_url}/allDivisions`, {
     method: "GET",
-    credentials: "include",
+    credentials: false,
   })
     .then((response) => {
       if (!response.ok) {
