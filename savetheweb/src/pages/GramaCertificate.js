@@ -70,7 +70,7 @@ export default function GramaCertificate() {
     const api_url = config.api_url;
     console.log(" get grama divisions");
 
-    fetch(`${api_url}/grama-certificate/allDivisions`, {
+    fetch(`${api_url}/allDivisions`, {
     method: "GET",
     credentials: "include",
   })
