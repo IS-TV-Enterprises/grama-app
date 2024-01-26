@@ -1,12 +1,6 @@
 import ballerina/http;
 import ballerinax/mysql.driver as _; // This bundles the driver to the project so that you don't need to bundle it via the `Ballerina.toml` file.
 
-// The service-level CORS config applies globally to each `resource`.
-@http:ServiceConfig {
-    cors: {
-        allowOrigins: ["http://localhost:3000"] // add front end host url here
-    }
-}
 
 service /grama\-certificate on new http:Listener(9030) {
     //get all certificate requests
