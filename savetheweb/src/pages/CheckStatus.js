@@ -19,7 +19,7 @@ const CheckStatus = () => {
 
     console.log("get grama certificates requested by the user",api_url);
 
-    fetch(`${api_url}/grama-certificate/allCertRequestsById?id=${NIC}`, {
+    fetch(`${api_url}/allCertRequestsById?id=${NIC}`, {
     method: "GET",
     credentials: "include",
     })
