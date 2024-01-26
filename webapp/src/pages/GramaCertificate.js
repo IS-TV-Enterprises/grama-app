@@ -37,7 +37,7 @@ export default function GramaCertificate() {
     }
 
     console.log("handle submit called");
-    fetch(`http://localhost:9030/grama-certificate/addCertificateRequest`, {
+    fetch(`http://localhost:9030/addCertificateRequest`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -67,7 +67,7 @@ export default function GramaCertificate() {
   useEffect(() => {
     console.log(" get grama divisions");
 
-    fetch(`http://localhost:9030/grama-certificate/allDivisions`, {
+    fetch(`http://localhost:9030/allDivisions`, {
     method: "GET",
     credentials: "include",
   })

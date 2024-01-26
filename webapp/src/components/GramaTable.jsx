@@ -61,7 +61,7 @@ const GramaTable = () => {
     setExpandedRow(expandedRow === rowId ? null : rowId);
     console.log("request Id is",NIC);
     if(expandedRow !== rowId){
-      fetch(`http://localhost:9030/grama-certificate/crimesById?id=${NIC}`, {
+      fetch(`http://localhost:9030/crimesById?id=${NIC}`, {
         method: "GET",
         credentials: "include",
         })
@@ -86,7 +86,7 @@ const GramaTable = () => {
 
   const approveOrRejectRequest = (reqId,status) => {
     console.log("approve request Id ",reqId);
-    fetch(`http://localhost:9030/grama-certificate/updateStatus?status=${status}&id=${reqId}`, {
+    fetch(`http://localhost:9030/updateStatus?status=${status}&id=${reqId}`, {
       method: "PATCH",
       credentials: "include",
       })
@@ -113,7 +113,7 @@ const GramaTable = () => {
   useEffect(() => {
     console.log(" 'Get all grama certifactes' request called");
 
-    fetch(`http://localhost:9030/grama-certificate/allCertRequests`, {
+    fetch(`http://localhost:9030/allCertRequests`, {
     method: "GET",
     credentials: "include",
   })
