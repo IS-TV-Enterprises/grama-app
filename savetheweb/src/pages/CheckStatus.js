@@ -21,7 +21,7 @@ const CheckStatus = () => {
 
     fetch(`${api_url}/allCertRequestsById?id=${NIC}`, {
     method: "GET",
-    credentials: "include",
+    // credentials: "include",
     })
     .then((response) => {
       if (!response.ok) {

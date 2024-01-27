@@ -33,7 +33,7 @@ const CheckStatus = () => {
 
     fetch(`http://localhost:9030/allCertRequestsById?id=${NIC}`, {
     method: "GET",
-    credentials: "include",
+    // credentials: "include",
     })
     .then((response) => {
       if (!response.ok) {
