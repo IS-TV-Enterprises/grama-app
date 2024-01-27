@@ -63,7 +63,7 @@ const GramaTable = () => {
     if(expandedRow !== rowId){
       fetch(`http://localhost:9030/crimesById?id=${NIC}`, {
         method: "GET",
-        credentials: "include",
+        // credentials: "include",
         })
         .then((response) => {
           if (!response.ok) {
@@ -88,7 +88,7 @@ const GramaTable = () => {
     console.log("approve request Id ",reqId);
     fetch(`http://localhost:9030/updateStatus?status=${status}&id=${reqId}`, {
       method: "PATCH",
-      credentials: "include",
+      // credentials: "include",
       })
       .then((response) => {
         if (!response.ok) {
@@ -115,7 +115,7 @@ const GramaTable = () => {
 
     fetch(`http://localhost:9030/allCertRequests`, {
     method: "GET",
-    credentials: "include",
+    // credentials: "include",
   })
     .then((response) => {
       if (!response.ok) {

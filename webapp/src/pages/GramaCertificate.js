@@ -39,7 +39,7 @@ export default function GramaCertificate() {
     console.log("handle submit called");
     fetch(`http://localhost:9030/addCertificateRequest`, {
     method: "POST",
-    credentials: "include",
+    // credentials: "include",
     headers: {
       'Content-Type': 'application/json', // Specify content type as JSON
       
@@ -69,7 +69,7 @@ export default function GramaCertificate() {
 
     fetch(`http://localhost:9030/allDivisions`, {
     method: "GET",
-    credentials: "include",
+    // credentials: "include",
   })
     .then((response) => {
       if (!response.ok) {
