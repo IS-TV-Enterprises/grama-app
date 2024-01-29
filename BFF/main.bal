@@ -73,18 +73,18 @@ isolated function addCertificateRequest1(certificate_request_body req) returns i
     string encodedAddress = check url:encode(req.address, "UTF-8");
 
     // get police_check value from police check service
-    int police_check = check policeCheckClient->get("/police-check/crime_check_by_id?Id="+req.NIC);
+    int police_check = check policeCheckClient->get("/crime_check_by_id?Id="+req.NIC);
     
 
     // get Id_check value from ID check service
     //returns the address_id if there's a user
-    int address_Id = check IDCheckClient->get("/id_check/citizen_by_NIC?id="+req.NIC);
+    int address_Id = check IDCheckClient->get("/citizen_by_NIC?id="+req.NIC);
 
 
     int Id_check = address_Id > 0 ? 1 : 0;
 
     // get address_check value from address check service
-    int address_check = check AddressCheckClient->get(string `/address-check/check_user_address_and_division?addressId=${address_Id}&divisionId=${req.division_id}&userAddress=${encodedAddress}`);
+    int address_check = check AddressCheckClient->get(string `/check_user_address_and_division?addressId=${address_Id}&divisionId=${req.division_id}&userAddress=${encodedAddress}`);
 
     // intial request status (processing=0, approved=1, rejected=2, smth like that)
     int request_status=0;
