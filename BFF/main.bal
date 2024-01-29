@@ -129,7 +129,7 @@ isolated function updateStatus1(int status, int id) returns int|error{
 }
 
 isolated function crimesById1(string Id) returns crime[]|error{
-    crime[] crimes = check policeCheckClient->get("/police-check/crimes_by_id?Id="+Id);
+    crime[] crimes = check policeCheckClient->get("/crimes_by_id?Id="+Id);
     //io:println(crimes);
     return crimes;
 }
