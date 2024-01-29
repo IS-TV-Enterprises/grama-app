@@ -49,7 +49,7 @@ service /grama\-certificate on new http:Listener(9030) {
 
     }
 
-    isolated resource function get crimesById(string id) returns int|error? {
+    isolated resource function get crimesById(string id) returns crime[]|error? {
         return crimesById1(id);
 
     }
