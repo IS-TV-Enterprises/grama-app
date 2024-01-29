@@ -1,5 +1,10 @@
-import ballerina/http;
+import ballerina/time;
+import ballerinax/mysql;
 import ballerinax/mysql.driver as _; // This bundles the driver to the project so that you don't need to bundle it via the `Ballerina.toml` file.
+import ballerina/sql;
+import ballerina/http;
+import ballerina/io;
+import ballerina/url;
 
 public type division_record record {|
     @sql:Column { name: "division_id" }
@@ -177,7 +182,7 @@ service /grama\-certificate on new http:Listener(9030) {
     }
 
     isolated resource function get crimesById(string id) returns int|error? {
-        return 1;
+        return crimesById(id);
 
     }
 
