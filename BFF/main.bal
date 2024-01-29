@@ -68,7 +68,7 @@ final http:Client IDCheckClient = check new (ID_CHECK_SERVICE);
 final http:Client AddressCheckClient = check new (ADDRESS_CHECK_SERVICE);
 
 //Inpput parameters : NIC, Address, division id
-isolated function addCertificateRequest(certificate_request_body req) returns int|error {
+isolated function addCertificateRequest1(certificate_request_body req) returns int|error {
     // Encoding a URL component into a string.
     string encodedAddress = check url:encode(req.address, "UTF-8");
 
@@ -113,7 +113,7 @@ isolated function addCertificateRequest(certificate_request_body req) returns in
 }
 
 
-isolated function updateStatus(int status, int id) returns int|error{
+isolated function updateStatus1(int status, int id) returns int|error{
     sql:ExecutionResult result = check dbClient->execute(`
         UPDATE certificate_requests
         SET status = ${status}
@@ -128,7 +128,7 @@ isolated function updateStatus(int status, int id) returns int|error{
         
 }
 
-isolated function crimesById(string Id) returns crime[]|error{
+isolated function crimesById1(string Id) returns crime[]|error{
     crime[] crimes = check policeCheckClient->get("/police-check/crimes_by_id?Id="+Id);
     //io:println(crimes);
     return crimes;
