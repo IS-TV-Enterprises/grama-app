@@ -52,6 +52,7 @@ configurable string DATABASE = ?;
 configurable string POLICE_CHECK_SERVICE = ?;
 configurable string ID_CHECK_SERVICE = ?;
 configurable string ADDRESS_CHECK_SERVICE = ?;
+configurable string TWILIO_SERVICE = ?;
 
 final mysql:Client dbClient = check new(
     host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE
@@ -66,6 +67,9 @@ final http:Client IDCheckClient = check new (ID_CHECK_SERVICE);
 
 // address check service
 final http:Client AddressCheckClient = check new (ADDRESS_CHECK_SERVICE);
+
+// twilio service
+final http:Client twilioClient = check new (TWILIO_SERVICE);
 
 //Inpput parameters : NIC, Address, division id
 isolated function addCertificateRequest1(certificate_request_body req) returns int|error {
@@ -120,6 +124,10 @@ isolated function updateStatus1(int status, int id) returns int|error{
         WHERE request_id = ${id}`);
     int|string? lastInsertId = result.affectedRowCount;
     if lastInsertId is int {
+        int temp = check twilioClient->/twiliomsgjson.post({
+            message: "Your Certificate Request "+${id} +" Status has been approved",
+            number: "94768741618"
+        });
         return lastInsertId;
     } else {
         return error("Unable to obtain last insert ID");
