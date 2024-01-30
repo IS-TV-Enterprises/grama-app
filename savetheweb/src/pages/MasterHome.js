@@ -139,14 +139,26 @@ const MasterHome = () => {
     return (
       // give me a div with a button circular progress and the title loading in an orange color text
       
-      <div>
-        <h1>Please wait while we verify you details</h1>
-        {state.isAuthenticated ? (
-          <h2>user Authenticated</h2>
-        ) : (
-          <h2>user not Authenticated</h2>
-        )}
-      </div>
+      <Box sx={{
+        marginTop: 0,
+        m: 1,
+        mb:6,
+        p: 10,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: orange[50],
+        borderRadius: "18px",
+        backgroundImage: `url(${form})`, // Set the background image
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover", // Cover the entire container without cropping
+        maxWidth: '100%', 
+        height: '90vh', 
+        justifyContent: "space-between",
+        
+     }}>
+       <CircularProgress />
+     </Box>
     );
   }
   // Return null if navigate is used to prevent rendering anything here
