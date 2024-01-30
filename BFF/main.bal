@@ -125,7 +125,7 @@ isolated function updateStatus1(int status, int id) returns int|error{
     int|string? lastInsertId = result.affectedRowCount;
     if lastInsertId is int {
         int temp = check twilioClient->/twiliomsgjson.post({
-            message: "Your Certificate Request "+${id} +" has been approved, it will be delivered to you shortly through registered post",
+            message: "Your Certificate Request " + id.toString() + " has been approved, it will be delivered to you shortly through registered post",
             number: "94768741618"
         });
         return lastInsertId;
