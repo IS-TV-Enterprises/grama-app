@@ -15,6 +15,8 @@ import { grey, orange } from "@mui/material/colors";
 const HelpForm = () => {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [certificateNo, setCertificateNo] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
   const [error, setError] = useState("");
   const [messageDelivered, setMessageDelivered] = useState(false);
 
@@ -29,6 +31,8 @@ const HelpForm = () => {
     const payload = {
       name,
       message,
+      certificateNo,
+      phoneNo,
     };
 
     try {
@@ -53,10 +57,14 @@ const HelpForm = () => {
     // For example, log the data to console
     console.log("Name:", name);
     console.log("Message:", message);
+    console.log("Certificate No.:", certificateNo);
+    console.log("Phone No.:", phoneNo);
 
     // Clear form fields after submission
     setName("");
     setMessage("");
+    setCertificateNo("");
+    setPhoneNo("");
     setError("");
     setMessageDelivered(true);
   };
@@ -91,6 +99,22 @@ const HelpForm = () => {
           margin="normal"
           value={name}
           onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          label="Certificate No."
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={certificateNo}
+          onChange={(e) => setCertificateNo(e.target.value)}
+        />
+        <TextField
+          label="Phone No."
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={phoneNo}
+          onChange={(e) => setPhoneNo(e.target.value)}
         />
         <TextField
           label="Message"
