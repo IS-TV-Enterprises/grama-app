@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="samith-BFF-observability-symbols">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BFF/target/cache/samith/BFF/0.1.0/observe/samith-BFF-observability-symbols.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
