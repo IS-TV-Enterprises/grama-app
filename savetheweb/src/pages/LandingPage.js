@@ -88,7 +88,15 @@ const LandingPage = () => {
               component="main"
               sx={{ pt: 1, pb: 2 }}
             >
-              <Typography
+
+
+
+
+
+
+
+
+              {/* <Typography
                 sx={{
                   lineHeight: 1.5,
                   fontSize: 32,
@@ -100,7 +108,7 @@ const LandingPage = () => {
               >
                 Your one-stop solution for effortlessly obtaining Garam
                 certificates with convenience and speed
-              </Typography>
+              </Typography> */}
             </Container>
             <Container
               disableGutters
@@ -110,7 +118,7 @@ const LandingPage = () => {
             >
               <Typography
                 sx={{
-                  fontSize: 18,
+                  fontSize: 26,
                   ml: 8,
                   color: grey[700],
                   justifyContent: "center",
@@ -127,12 +135,12 @@ const LandingPage = () => {
                 onClick={() => signIn()}
                 sx={{
                   ml: 8,
-                  width: "8vw",
-                  height: "3vw",
+                  width: "120px",
+                  height: "40px",
 
                   backgroundColor: orange[800],
 
-                  fontSize: "1.2rem",
+                  fontSize: "12",
                   "&:hover": {
                     backgroundColor: orange[600],
                   },
