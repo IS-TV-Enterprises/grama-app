@@ -128,6 +128,7 @@ isolated function updateStatus1(int status, int id) returns int|error{
             message: "Your Certificate Request " + id.toString() + " has been approved, it will be delivered to you shortly through registered post",
             number: "94768741618"
         });
+        io:println(temp);
         return lastInsertId;
     } else {
         return error("Unable to obtain last insert ID");
