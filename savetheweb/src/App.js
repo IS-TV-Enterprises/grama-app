@@ -4,7 +4,6 @@ import { Box } from "@mui/material";
 import Navtop from "./components/Navbar";
 import LandingPage from "./pages/LandingPage";
 import CheckStatus from "./pages/CheckStatus";
-import Footer from "./components/Footer";
 import GramaCertificate from "./pages/GramaCertificate";
 import HelpForm from "./components/HelpForm";
 import GramaNilHome from "./pages/GramaNilHome";
@@ -40,7 +39,7 @@ function App() {
 
           </Routes>
         </Box>
-        <Footer />
+
       </BrowserRouter>
     </Box>
   );

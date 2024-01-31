@@ -1,26 +1,24 @@
 import * as React from "react";
 import {
   Typography,
-  useTheme,
   Box,
   Grid,
   Container,
   Button,
   Card,
 } from "@mui/material";
-import { grey, pink, orange } from "@mui/material/colors";
+import { grey, orange } from "@mui/material/colors";
 import form from "../Assets/form.jpg";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import TrackChangesOutlinedIcon from "@mui/icons-material/TrackChangesOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import { AuthProvider } from "@asgardeo/auth-react";
 import { useAuthContext } from "@asgardeo/auth-react";
-import configdata from "../config.json";
+import Footer from "../components/Footer";
 
 
 const LandingPage = () => {
   const { state, signIn, signOut } = useAuthContext();
-  const theme = useTheme();
+  
 
   const sectionItems = [
     {
@@ -195,6 +193,7 @@ const LandingPage = () => {
           ))}
         </Grid>
       </Box>
+      <Footer />
     </Box>
   );
 };

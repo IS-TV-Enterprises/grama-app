@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {  grey, orange } from "@mui/material/colors";
 import HelpButton from "../components/HelpButton";
@@ -16,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import form from "../Assets/people.jpg";
+import config from '../config.json'; 
 
 
 
@@ -23,20 +25,74 @@ const defaultTheme = createTheme();
 
 
 export default function GramaCertificate() {
-  const [gramaDivision, setgramaDivision] = useState('');
-
-  const handleChange = (event) => {
-    setgramaDivision(event.target.value);
-  }
-
+  const [gramaDivisions, setgramaDivisions] = useState([]);
+  const [selectedDivision, setSelectedDivision] = useState('');
+  const api_url = config.api_url;
+  
+  //Handle submission of the grama certificate request form
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    const postData = {
+      "division_id": parseInt(event.target.gramaDivision.value, 10),
+      "NIC": event.target.NIC.value,
+      "address": event.target.addressLine1.value +"," + event.target.addressLine2.value + ","+ event.target.addressLine3.value + ","+ event.target.city.value
+    }
+
+    console.log("handle submit called");
+    fetch(`${api_url}/grama-certificate/addCertificateRequest`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      'Content-Type': 'application/json', // Specify content type as JSON
+      
+    },
+    body: JSON.stringify(postData)
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      console.log(response)
+      return response.json(); // Convert response to JSON
+    })
+    .catch((error) => {
+      // Handle errors here
+      console.error('There was a problem when sending the request data:', error);
     });
+
+    event.target.reset(); // Reset the form fields
+    setSelectedDivision('');
+
   };
+
+  //getnames of the grama division and divisionIds from division table
+  useEffect(() => {
+    const api_url = config.api_url;
+    console.log(" get grama divisions");
+
+    fetch(`${api_url}/allDivisions`, {
+    method: "GET",
+    credentials: "include",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      
+      return response.json(); // Convert response to JSON
+    })
+    .then((data) => {
+      // Handle the JSON data 
+      // NIC:"20006756432", address_check:false, division_id: 1, id_check: true , police_check: true, request_id: 1, status:1 
+      console.log(data);
+      setgramaDivisions(data)
+    })
+    .catch((error) => {
+      // Handle errors 
+      console.error('There was a problem with the fetch operation:', error);
+    });
+
+  },[api_url]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -59,15 +115,18 @@ export default function GramaCertificate() {
         }}>
           <Typography variant="h3" component="h3" 
           sx={{
-            mt:14,
+            mt:13,
             fontFamily: 'Whisper',
             color: orange[800],
             
           }}
         > Welcome to Grama App</Typography>
+       
           
 
         </Box>
+        
+      
         <Box
           sx={{
             marginTop: 6,
@@ -79,7 +138,9 @@ export default function GramaCertificate() {
             backgroundColor: grey[200],
             borderRadius: "18px",
             boxShadow: "4px 4px 8px rgba(0, 0, 0, 0.1)",
+           
           }}
+          onSubmit ={handleSubmit}
         >
           <Typography
             component="h1"
@@ -91,8 +152,6 @@ export default function GramaCertificate() {
           </Typography>
           <Box
             component="form"
-            noValidate
-            onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -111,14 +170,19 @@ export default function GramaCertificate() {
                 <FormControl fullWidth>
                     <InputLabel >Grama Niladhari Division</InputLabel>
                     <Select
-                      id="grama-division"
-                      value={gramaDivision}
+                      id="gramaDivision"
+                      name="gramaDivision"
                       label="grama-division"
-                      onChange={handleChange}
+                      value={selectedDivision}
+                      onChange={(event) => setSelectedDivision(event.target.value)}
+                      required
                        >
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={''} disabled>Select Division</MenuItem>
+                      {gramaDivisions.map((division) => (
+                        <MenuItem key={division.division_id} value={division.division_id}>
+                          {division.division}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                         
@@ -127,7 +191,7 @@ export default function GramaCertificate() {
                 <TextField
                   required
                   fullWidth
-                  id="address-line-1"
+                  id="addressLine1"
                   label="Address Line 1"
                   name="address-line-1"
                 />
@@ -137,18 +201,21 @@ export default function GramaCertificate() {
                 <TextField
                   required
                   fullWidth
-                  id="address-line-2"
+                  id="addressLine2"
                   label="Address Line 2"
                   name="address-line-2"
+                  autoComplete
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
+                  required
                   fullWidth
-                  id="address-line-3"
+                  id="addressLine3"
                   label="Address Line 3"
                   name="address-line-3"
-                />
+                  autoComplete
+              />
               </Grid>
               <Grid item xs={12} md={6}>
                 <TextField
@@ -157,15 +224,14 @@ export default function GramaCertificate() {
                   id="city"
                   label="City"
                   name="city"
-                  autoComplete="city"
+                  autoComplete
                 />
               </Grid>
 
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
-                  name="password"
+                  name="purpose"
                   label="Purpose of Obtaining a Grama Certificate"
                   id="purpose"
                   multiline // Enable multi-line mode
@@ -190,6 +256,7 @@ export default function GramaCertificate() {
                   height: "8vh",
                   backgroundColor: orange[600],
                 }}
+                
               >
                 <Typography>Submit</Typography>
               </Button>
@@ -197,6 +264,11 @@ export default function GramaCertificate() {
             <HelpButton/>
           </Box>
         </Box>
+        
+        
+        
+        
+       
       </Container>
     </ThemeProvider>
   );

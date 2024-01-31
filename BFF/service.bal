@@ -4,8 +4,7 @@ import ballerinax/mysql.driver as _; // This bundles the driver to the project s
 // The service-level CORS config applies globally to each `resource`.
 @http:ServiceConfig {
     cors: {
-        allowOrigins: ["http://localhost:3000"], // add front end host url here
-        allowCredentials: true
+        allowOrigins: ["http://localhost:3000"] // add front end host url here
     }
 }
 
