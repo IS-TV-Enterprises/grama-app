@@ -19,6 +19,8 @@ configurable string access_token = ?;
 type MSG readonly & record {|
     string name;
     string message;
+    string certificateNo;
+    string phoneNo;
 |};
 
 

@@ -45,7 +45,7 @@ resource function post sendmsgjson(MSG msg) returns error? {
 
     slack:Message messageParams = {
         channelName: "grama-support",
-        text: msg.message + " from " + msg.name
+        text: msg.message + " from " + msg.name + " (Phone: " + msg.phoneNo + ")" + " (Certificate No: " + msg.certificateNo + ")"
     };
 
     // Post a message to a channel.
